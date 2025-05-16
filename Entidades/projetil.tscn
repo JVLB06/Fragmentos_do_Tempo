@@ -1,0 +1,109 @@
+[gd_scene load_steps=14 format=3 uid="uid://csh4vy5eop6be"]
+
+[ext_resource type="Texture2D" uid="uid://cvyqe52gml7d2" path="res://Assets/Player/Charge_1.png" id="1_gjsib"]
+
+[sub_resource type="GDScript" id="GDScript_gjsib"]
+script/source = "extends Area2D
+
+@export var speed: float = 400.0
+@export var damage: int = 10
+var direction := Vector2.RIGHT
+
+func _ready():
+	connect(\"body_entered\", Callable(self, \"_on_body_entered\"))
+
+func _process(delta):
+	position += direction * speed * delta
+
+func _on_body_entered(body):
+	if body.has_method(\"apply_damage\"):
+		body.apply_damage(damage)
+	queue_free()
+"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rfr4t"]
+radius = 7.0
+height = 16.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w34ou"]
+atlas = ExtResource("1_gjsib")
+region = Rect2(0, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0t1s3"]
+atlas = ExtResource("1_gjsib")
+region = Rect2(64, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmxf2"]
+atlas = ExtResource("1_gjsib")
+region = Rect2(128, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ryddb"]
+atlas = ExtResource("1_gjsib")
+region = Rect2(192, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0kfbd"]
+atlas = ExtResource("1_gjsib")
+region = Rect2(256, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ulwv"]
+atlas = ExtResource("1_gjsib")
+region = Rect2(320, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5e6wf"]
+atlas = ExtResource("1_gjsib")
+region = Rect2(384, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2jde"]
+atlas = ExtResource("1_gjsib")
+region = Rect2(448, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7t86"]
+atlas = ExtResource("1_gjsib")
+region = Rect2(512, 0, 64, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6of36"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w34ou")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0t1s3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmxf2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ryddb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0kfbd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ulwv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5e6wf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2jde")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7t86")
+}],
+"loop": true,
+"name": &"disparo",
+"speed": 7.0
+}]
+
+[node name="Projetil" type="Area2D"]
+script = SubResource("GDScript_gjsib")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_rfr4t")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-16, -1)
+sprite_frames = SubResource("SpriteFrames_6of36")
+animation = &"disparo"
+frame_progress = 0.134752
