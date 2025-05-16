@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://c861fxfxpmgub"]
 
 [ext_resource type="Texture2D" uid="uid://dn4c41dwuj1fy" path="res://Assets/Background/set_1_winter_forest/tileset.png" id="1_yt7wm"]
-[ext_resource type="Texture2D" uid="uid://vdjojtrefbr" path="res://Assets/Background/set_3_green_see/1 Tiles/Tileset.png" id="2_pl8jc"]
-[ext_resource type="Texture2D" uid="uid://drjri1w1l7l25" path="res://Assets/Background/set_2_industrial_see/5. Industrial Tileset - Starter Pack 32p/1_Industrial_Tileset_1B.png" id="3_2a3v0"]
-[ext_resource type="Texture2D" uid="uid://buwsqn5vm81r0" path="res://Assets/Background/set_2_industrial_see/5. Industrial Tileset - Starter Pack 32p/1_Industrial_Tileset_1.png" id="4_hj71y"]
+[ext_resource type="Texture2D" uid="uid://bbdxkon43imam" path="res://Assets/Background/set_3_green/1 Tiles/Tileset.png" id="2_pl8jc"]
+[ext_resource type="Texture2D" uid="uid://drjri1w1l7l25" path="res://Assets/Background/set_2_industrial/5. Industrial Tileset - Starter Pack 32p/1_Industrial_Tileset_1B.png" id="3_2a3v0"]
+[ext_resource type="Texture2D" uid="uid://buwsqn5vm81r0" path="res://Assets/Background/set_2_industrial/5. Industrial Tileset - Starter Pack 32p/1_Industrial_Tileset_1.png" id="4_hj71y"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c8fxp"]
 texture = ExtResource("1_yt7wm")
