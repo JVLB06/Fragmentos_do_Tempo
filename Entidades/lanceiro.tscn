@@ -1,0 +1,378 @@
+[gd_scene load_steps=36 format=3 uid="uid://b63hq5bihimgh"]
+
+[ext_resource type="Texture2D" uid="uid://c3v00rbstb7qt" path="res://Assets/Inimigos/skeletons/Lanceiro/Attack_2.png" id="1_08k4q"]
+[ext_resource type="Texture2D" uid="uid://dwnve721k0dor" path="res://Assets/Inimigos/skeletons/Lanceiro/Dead.png" id="2_ooxpu"]
+[ext_resource type="Texture2D" uid="uid://dwd1vpu7w3vk0" path="res://Assets/Inimigos/skeletons/Lanceiro/Hurt.png" id="3_cs4rp"]
+[ext_resource type="Texture2D" uid="uid://b6ve6xt8j10fv" path="res://Assets/Inimigos/skeletons/Lanceiro/Idle.png" id="4_v3fn2"]
+[ext_resource type="Texture2D" uid="uid://c4c2c3quaa8hs" path="res://Assets/Inimigos/skeletons/Lanceiro/Run.png" id="5_1u5fw"]
+
+[sub_resource type="GDScript" id="GDScript_08k4q"]
+script/source = "extends CharacterBody2D
+
+signal took_damage(amount)
+signal died
+
+@export var speed: float = 100.0
+@export var follow_distance: float = 200.0
+@export var gravity: float = 800.0
+@export var max_health: int = 100
+@export var attack_cooldown := 1.0
+@export var dano = 10
+
+var is_attacking := false
+var attack_timer := 0.0
+var current_health: int
+var target: Node2D = null
+var patrol_direction: int = 1  # 1 = direita, -1 = esquerda
+
+@onready var enemy: AnimatedSprite2D = $AnimatedSprite2D
+@onready var wall_detector: RayCast2D = $WallDetector
+@onready var ledge_detector: RayCast2D = $LedgeDetector
+@onready var player_detector: Area2D = $PlayerDetector
+@onready var area_attack: Area2D = $AttackArea
+
+func _ready():
+	current_health = max_health
+	player_detector.body_entered.connect(_on_body_entered)
+	player_detector.body_exited.connect(_on_body_exited)
+	area_attack.body_entered.connect(_ataque)
+
+func _physics_process(delta):
+	if not is_on_floor():
+		velocity.y += gravity * delta
+	else:
+		velocity.y = 0
+
+	if is_attacking:
+		attack_timer -= delta
+		if attack_timer <= 0:
+			is_attacking = false
+	else:
+		if target:
+			# Seguir o player
+			var direction = sign(target.global_position.x - global_position.x)
+			var distance = global_position.distance_to(target.global_position)
+			
+			if distance <= follow_distance and _can_move(direction):
+				velocity.x = direction * speed
+				enemy.play(\"walk\")
+				update_facing_direction(direction)
+			else:
+				velocity.x = 0
+				enemy.play(\"idle\")
+		else:
+			# Patrulha
+			if _can_move(patrol_direction):
+				velocity.x = patrol_direction * speed
+				enemy.play(\"walk\")
+				update_facing_direction(patrol_direction)
+			else:
+				# Inverte direção se bateu na parede ou não tem chão
+				patrol_direction *= -1
+				velocity.x = 0
+				enemy.play(\"idle\")
+
+	move_and_slide()
+
+func _can_move(direction: int) -> bool:
+	# Ajusta sensores para o lado da movimentação
+	wall_detector.target_position.x = direction * 10
+	ledge_detector.target_position.x = direction * 10
+
+	wall_detector.force_raycast_update()
+	ledge_detector.force_raycast_update()
+
+	var wall_hit = wall_detector.is_colliding()
+	var ground_ahead = ledge_detector.is_colliding()
+
+	return not wall_hit and ground_ahead
+
+func _on_body_entered(body):
+	if body.is_in_group(\"player\"):
+		target = body
+
+func _on_body_exited(body):
+	if body == target:
+		target = null
+
+func _ataque(body):
+	if body.is_in_group(\"player\") and not is_attacking:
+		is_attacking = true
+		attack_timer = attack_cooldown
+		enemy.play(\"attack\")
+
+		if body.has_method(\"apply_damage\"):
+			body.apply_damage(dano)
+
+func apply_damage(amount: int):
+	current_health -= amount
+	enemy.play(\"hurt\")
+	emit_signal(\"took_damage\", amount)
+	if current_health <= 0:
+		enemy.play(\"die\")
+		emit_signal(\"died\")
+		queue_free()
+
+func update_facing_direction(direction: int):
+	enemy.scale.x = direction
+
+	# Atualiza manualmente os elementos que não respondem ao flip do sprite
+	area_attack.position.x = abs(area_attack.position.x) * direction
+	player_detector.position.x = abs(player_detector.position.x) * direction
+	$CollisionShape2D.position.x = abs($CollisionShape2D.position.x) * direction
+
+	wall_detector.position.x = abs(wall_detector.position.x) * direction
+	wall_detector.target_position.x = abs(wall_detector.target_position.x) * direction
+
+	ledge_detector.position.x = abs(ledge_detector.position.x) * direction
+	ledge_detector.target_position.x = abs(ledge_detector.target_position.x) * direction
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_635sl"]
+size = Vector2(415, 65)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eqxso"]
+size = Vector2(126, 64.5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvqnv"]
+atlas = ExtResource("1_08k4q")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1lmn"]
+atlas = ExtResource("1_08k4q")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t68tw"]
+atlas = ExtResource("1_08k4q")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3eki"]
+atlas = ExtResource("1_08k4q")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e72cn"]
+atlas = ExtResource("2_ooxpu")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15dmp"]
+atlas = ExtResource("2_ooxpu")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qgso"]
+atlas = ExtResource("2_ooxpu")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggjkp"]
+atlas = ExtResource("2_ooxpu")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lafb6"]
+atlas = ExtResource("2_ooxpu")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hs2uv"]
+atlas = ExtResource("3_cs4rp")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ph7wh"]
+atlas = ExtResource("3_cs4rp")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v6ya4"]
+atlas = ExtResource("3_cs4rp")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5dus"]
+atlas = ExtResource("4_v3fn2")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nsaoo"]
+atlas = ExtResource("4_v3fn2")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gn0is"]
+atlas = ExtResource("4_v3fn2")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ay7p"]
+atlas = ExtResource("4_v3fn2")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkg8a"]
+atlas = ExtResource("4_v3fn2")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1760g"]
+atlas = ExtResource("4_v3fn2")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q00g"]
+atlas = ExtResource("4_v3fn2")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7dm0"]
+atlas = ExtResource("5_1u5fw")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ev0uo"]
+atlas = ExtResource("5_1u5fw")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvdi0"]
+atlas = ExtResource("5_1u5fw")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tf387"]
+atlas = ExtResource("5_1u5fw")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3af4"]
+atlas = ExtResource("5_1u5fw")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5gaf3"]
+atlas = ExtResource("5_1u5fw")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0y2uh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvqnv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1lmn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t68tw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3eki")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e72cn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_15dmp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qgso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggjkp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lafb6")
+}],
+"loop": true,
+"name": &"die",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hs2uv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ph7wh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v6ya4")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5dus")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nsaoo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gn0is")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ay7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lkg8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1760g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4q00g")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7dm0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ev0uo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fvdi0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tf387")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3af4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5gaf3")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nf036"]
+size = Vector2(31, 64)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = SubResource("GDScript_08k4q")
+
+[node name="WallDetector" type="RayCast2D" parent="."]
+position = Vector2(0, 35)
+target_position = Vector2(70, -3)
+
+[node name="LedgeDetector" type="RayCast2D" parent="."]
+position = Vector2(0, 33)
+target_position = Vector2(47, 33)
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+position = Vector2(-1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+position = Vector2(54.5, 31)
+shape = SubResource("RectangleShape2D_635sl")
+debug_color = Color(0.99012, 0, 0.282251, 0.42)
+
+[node name="AttackArea" type="Area2D" parent="."]
+position = Vector2(0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2(9, 31)
+shape = SubResource("RectangleShape2D_eqxso")
+debug_color = Color(0, 0.637428, 0.392201, 0.42)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_0y2uh")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-6.5, 32)
+shape = SubResource("RectangleShape2D_nf036")
