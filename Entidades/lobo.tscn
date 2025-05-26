@@ -1,11 +1,11 @@
 [gd_scene load_steps=49 format=3 uid="uid://c1qeeakvntkm8"]
 
-[ext_resource type="Texture2D" uid="uid://dxyqr7p2cc74w" path="res://Assets/Inimigos/wolf/Attack_1.png" id="1_412sx"]
-[ext_resource type="Texture2D" uid="uid://o43fxpepxac4" path="res://Assets/Inimigos/wolf/Hurt.png" id="2_i3pbs"]
-[ext_resource type="Texture2D" uid="uid://c7nlrnf6hio1m" path="res://Assets/Inimigos/wolf/Idle.png" id="3_uo43w"]
-[ext_resource type="Texture2D" uid="uid://bamc5s0jhdoba" path="res://Assets/Inimigos/wolf/Jump.png" id="4_mwx80"]
-[ext_resource type="Texture2D" uid="uid://bxkn36dmar5tc" path="res://Assets/Inimigos/wolf/Dead.png" id="5_yeaeg"]
-[ext_resource type="Texture2D" uid="uid://bkvrxocdic3mv" path="res://Assets/Inimigos/wolf/Run.png" id="6_1pc18"]
+[ext_resource type="Texture2D" uid="uid://bhbmaq6g5fpf1" path="res://Assets/Inimigos/wolf/Attack_1.png" id="1_412sx"]
+[ext_resource type="Texture2D" uid="uid://bbs4y7ia5e472" path="res://Assets/Inimigos/wolf/Hurt.png" id="2_i3pbs"]
+[ext_resource type="Texture2D" uid="uid://cc23jlftilks0" path="res://Assets/Inimigos/wolf/Idle.png" id="3_uo43w"]
+[ext_resource type="Texture2D" uid="uid://d26qb1cjhvgnt" path="res://Assets/Inimigos/wolf/Jump.png" id="4_mwx80"]
+[ext_resource type="Texture2D" uid="uid://cpy0a6ca2ccgr" path="res://Assets/Inimigos/wolf/Dead.png" id="5_yeaeg"]
+[ext_resource type="Texture2D" uid="uid://w1o6ekoco5m7" path="res://Assets/Inimigos/wolf/Run.png" id="6_1pc18"]
 
 [sub_resource type="GDScript" id="GDScript_idqry"]
 script/source = "# Script do inimigo patrulheiro
@@ -13,7 +13,7 @@ script/source = "# Script do inimigo patrulheiro
 extends CharacterBody2D
 
 @export var speed: float = 60.0
-@export var health: int = 100
+@export var health: int = 150
 @export var damage: int = 10
 
 @onready var ray_down = $Olhos

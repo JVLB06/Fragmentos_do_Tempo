@@ -1,0 +1,79 @@
+[gd_scene load_steps=9 format=3 uid="uid://wgfv3caafe1j"]
+
+[ext_resource type="Texture2D" uid="uid://eduy2iog68xi" path="res://Assets/Inimigos/projetil/big blue1.png" id="1_jvsyp"]
+[ext_resource type="Texture2D" uid="uid://oki21vhu81xt" path="res://Assets/Inimigos/projetil/big blue2.png" id="2_a8vm3"]
+[ext_resource type="AudioStream" uid="uid://dqqbhuyvpmqtp" path="res://Sounds/entity_sounds/impacto.wav" id="3_a8vm3"]
+
+[sub_resource type="GDScript" id="GDScript_nm4em"]
+script/source = "extends Area2D
+
+@export var speed: float = 400.0
+@export var lifetime: float = 3.0
+@export var damage: int = 30
+@export var direction: Vector2 = Vector2.RIGHT
+
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var impacto = $impacto
+var lifetime_timer: float = 0.0
+
+func _ready():
+	lifetime_timer = lifetime
+	sprite.play(\"flash\")  # Nome da animação que pisca
+	connect(\"body_entered\", Callable(self, \"_on_body_entered\"))
+
+func _process(delta):
+	lifetime_timer -= delta
+	if lifetime_timer <= 0:
+		queue_free()
+
+	position += direction.normalized() * speed * delta * -1
+
+func _on_body_entered(body):
+	impacto.play()
+	# Verifica se o corpo tem método para dano e NÃO está no grupo \"boss\"
+	if body.has_method(\"apply_damage\") and not body.is_in_group(\"boss\"):
+		body.apply_damage(damage)
+		queue_free()  # destrói o projétil ao causar dano
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqdt6"]
+atlas = ExtResource("1_jvsyp")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b16ap"]
+atlas = ExtResource("2_a8vm3")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o88x6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qqdt6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b16ap")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j315e"]
+radius = 16.0
+
+[node name="Projectile" type="Area2D"]
+script = SubResource("GDScript_nm4em")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-0.5, -0.499999)
+scale = Vector2(2.0625, 1.8125)
+sprite_frames = SubResource("SpriteFrames_o88x6")
+autoplay = "default"
+frame_progress = 0.69305
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-9.53674e-07, 0)
+shape = SubResource("CircleShape2D_j315e")
+
+[node name="impacto" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_a8vm3")

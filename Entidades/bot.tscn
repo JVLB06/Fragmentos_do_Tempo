@@ -1,10 +1,135 @@
-[gd_scene load_steps=38 format=3 uid="uid://mledpl1cmexx"]
+[gd_scene load_steps=40 format=3 uid="uid://mledpl1cmexx"]
 
-[ext_resource type="Texture2D" uid="uid://cs44cre26mmfs" path="res://Assets/Inimigos/Bot/attack.png" id="1_rmrj6"]
-[ext_resource type="Texture2D" uid="uid://12lut2y0w5qc" path="res://Assets/Inimigos/Bot/death.png" id="2_5acbi"]
-[ext_resource type="Texture2D" uid="uid://dvvha7dd0ik3" path="res://Assets/Inimigos/Bot/hit.png" id="3_h33l3"]
-[ext_resource type="Texture2D" uid="uid://bs0ms26a0yt6i" path="res://Assets/Inimigos/Bot/idle.png" id="4_wpf1r"]
-[ext_resource type="Texture2D" uid="uid://801pkee1s8c" path="res://Assets/Inimigos/Bot/run.png" id="5_udecc"]
+[ext_resource type="Texture2D" uid="uid://4hfefux5c63r" path="res://Assets/Inimigos/Bot/attack.png" id="1_rmrj6"]
+[ext_resource type="Texture2D" uid="uid://cafg20cnua11i" path="res://Assets/Inimigos/Bot/death.png" id="2_5acbi"]
+[ext_resource type="Texture2D" uid="uid://c53fq10d4w6vp" path="res://Assets/Inimigos/Bot/hit.png" id="3_h33l3"]
+[ext_resource type="Texture2D" uid="uid://dvf235j4ad73k" path="res://Assets/Inimigos/Bot/idle.png" id="4_wpf1r"]
+[ext_resource type="Texture2D" uid="uid://ccc2xipolqa76" path="res://Assets/Inimigos/Bot/run.png" id="5_udecc"]
+[ext_resource type="AudioStream" uid="uid://ce4r1n253niki" path="res://Sounds/entity_sounds/attack_bot.wav" id="6_5acbi"]
+
+[sub_resource type="GDScript" id="GDScript_rmrj6"]
+script/source = "extends CharacterBody2D
+
+signal took_damage(amount)
+signal died
+
+@export var speed: float = 50.0
+@export var follow_distance: float = 200.0
+@export var gravity: float = 800.0
+@export var max_health: int = 100
+@export var attack_cooldown := 1.0
+@export var dano = 15
+
+var is_attacking := false
+var attack_timer := 0.0
+var current_health: int
+var target: Node2D = null
+var patrol_direction: int = 1  # 1 = direita, -1 = esquerda
+
+@onready var enemy: AnimatedSprite2D = $AnimatedSprite2D
+@onready var wall_detector: RayCast2D = $WallDetector
+@onready var ledge_detector: RayCast2D = $LedgeDetector
+@onready var player_detector: Area2D = $PlayerDetector
+@onready var area_attack: Area2D = $AttackArea
+@onready var atk_sound = $ataque
+
+func _ready():
+	current_health = max_health
+	player_detector.body_entered.connect(_on_body_entered)
+	player_detector.body_exited.connect(_on_body_exited)
+	area_attack.body_entered.connect(_ataque)
+
+func _physics_process(delta):
+	if not is_on_floor():
+		velocity.y += gravity * delta
+	else:
+		velocity.y = 0
+
+	if is_attacking:
+		attack_timer -= delta
+		if attack_timer <= 0:
+			is_attacking = false
+	else:
+		if target:
+			# Seguir o player
+			var direction = sign(target.global_position.x - global_position.x)
+			var distance = global_position.distance_to(target.global_position)
+			
+			if distance <= follow_distance and _can_move(direction):
+				velocity.x = direction * speed
+				enemy.play(\"walk\")
+				update_facing_direction(direction)
+			else:
+				velocity.x = 0
+				enemy.play(\"idle\")
+		else:
+			# Patrulha
+			if _can_move(patrol_direction):
+				velocity.x = patrol_direction * speed
+				enemy.play(\"walk\")
+				update_facing_direction(patrol_direction)
+			else:
+				# Inverte direção se bateu na parede ou não tem chão
+				patrol_direction *= -1
+				velocity.x = 0
+				enemy.play(\"idle\")
+
+	move_and_slide()
+
+func _can_move(direction: int) -> bool:
+	# Ajusta sensores para o lado da movimentação
+	wall_detector.target_position.x = direction * 10
+	ledge_detector.target_position.x = direction * 10
+
+	wall_detector.force_raycast_update()
+	ledge_detector.force_raycast_update()
+
+	var wall_hit = wall_detector.is_colliding()
+	var ground_ahead = ledge_detector.is_colliding()
+
+	return not wall_hit and ground_ahead
+
+func _on_body_entered(body):
+	if body.is_in_group(\"player\"):
+		target = body
+
+func _on_body_exited(body):
+	if body == target:
+		target = null
+
+func _ataque(body):
+	if body.is_in_group(\"player\") and not is_attacking:
+		is_attacking = true
+		attack_timer = attack_cooldown
+		atk_sound.play()
+		enemy.play(\"attack\")
+
+		if body.has_method(\"apply_damage\"):
+			body.apply_damage(dano)
+
+func apply_damage(amount: int):
+	current_health -= amount
+	enemy.play(\"hurt\")
+	emit_signal(\"took_damage\", amount)
+	if current_health <= 0:
+		enemy.play(\"die\")
+		emit_signal(\"died\")
+		queue_free()
+
+func update_facing_direction(direction: int):
+	enemy.scale.x = direction
+
+	# Atualiza manualmente os elementos que não respondem ao flip do sprite
+	area_attack.position.x = abs(area_attack.position.x) * direction
+	player_detector.position.x = abs(player_detector.position.x) * direction
+	$CollisionShape2D.position.x = abs($CollisionShape2D.position.x) * direction
+
+	wall_detector.position.x = abs(wall_detector.position.x) * direction
+	wall_detector.target_position.x = abs(wall_detector.target_position.x) * direction
+
+	ledge_detector.position.x = abs(ledge_detector.position.x) * direction
+	ledge_detector.target_position.x = abs(ledge_detector.target_position.x) * direction
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y14y4"]
 size = Vector2(487.5, 37)
@@ -240,6 +365,7 @@ animations = [{
 size = Vector2(25, 31)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+script = SubResource("GDScript_rmrj6")
 
 [node name="WallDetector" type="RayCast2D" parent="."]
 position = Vector2(1, 18)
@@ -274,3 +400,6 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2.5, 16.5)
 shape = SubResource("RectangleShape2D_v5vv7")
+
+[node name="ataque" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_5acbi")

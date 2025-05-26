@@ -1,0 +1,281 @@
+[gd_scene load_steps=20 format=3 uid="uid://bkaapwpltfjk6"]
+
+[ext_resource type="Texture2D" uid="uid://b8dqq7ktlpt7c" path="res://Assets/Inimigos/dead_snake/head.png" id="1_h52o0"]
+
+[sub_resource type="GDScript" id="GDScript_a2tef"]
+script/source = "extends CharacterBody2D
+
+@export var speed: float = 180.0
+@export var shoot_height: float = 140.0
+@export var top_height: float = 200.0
+@export var shoot_cooldown: float = 1.5
+@export var attack_delay: float = 1.0  # Tempo para carregar animação antes de disparar
+@export var max_health: int = 300
+
+@onready var shoot_spawn_point = $SpawnPoint
+@onready var head = $AnimatedSprite2D
+var VertebraScene = preload(\"res://Entidades/vertebra.tscn\")
+var vertebras = []
+var position_history := []
+var max_history_length := 300
+var player: Node2D
+var phase: String = \"hunt\"
+var shoot_timer := 0.0
+var health: int
+
+
+func _ready():
+	add_to_group(\"boss\")
+	health = max_health
+	spawn_vertebras()
+	# Preenche o histórico com a posição inicial
+	for i in range(max_history_length):
+		position_history.append(global_position)
+	var players = get_tree().get_nodes_in_group(\"player\")
+	if players.size() > 0:
+		player = players[0]
+	else:
+		push_warning(\"Nenhum nó no grupo 'player' foi encontrado.\")
+func spawn_vertebras():
+	for i in range(20):
+		var v = VertebraScene.instantiate()
+		v.set_history_index((i + 1) * 5)  # Delay proporcional à posição na cadeia
+		v.set_history_reference(position_history)
+		add_child(v)
+		vertebras.append(v)
+func _physics_process(delta):
+	if not player:
+		return
+	# Atualiza o histórico de posição
+	position_history.append(global_position)
+	if position_history.size() > max_history_length:
+		position_history.pop_front()
+	match phase:
+		\"hunt\":
+			head.play(\"idle\")
+			update_rotation_to_target(player.global_position)
+			move_toward_position(player.global_position)
+			if global_position.distance_to(player.global_position) <= 54:
+				phase = \"ascend_to_shoot\"
+
+		\"ascend_to_shoot\":
+			head.play(\"idle\")
+			update_rotation_to_target(-player.global_position)
+			var target = Vector2(global_position.x, shoot_height)
+			move_toward_position(target)
+			if global_position.y <= shoot_height + 5:
+				phase = \"prepare_shoot\"
+				shoot_timer = attack_delay
+
+		\"prepare_shoot\":
+			velocity = Vector2.ZERO  # Para no ar
+			update_rotation_to_target(player.global_position)
+			head.play(\"attack\")
+			shoot_timer -= delta
+			if shoot_timer <= 0:
+				phase = \"shoot\"
+				shoot_timer = shoot_cooldown
+
+		\"shoot\":
+			velocity = Vector2.ZERO
+			update_rotation_to_target(player.global_position)
+			head.play(\"attack\")
+			shoot_timer -= delta
+			if shoot_timer <= 0:
+				shoot_projectile()
+				phase = \"ascend_top\"
+
+		\"ascend_top\":
+			head.play(\"idle\")
+			update_rotation_to_target(-player.global_position)
+			var target = Vector2(global_position.x, top_height)
+			move_toward_position(target)
+			if global_position.y <= top_height + 5:
+				phase = \"hunt\"
+	move_and_slide()
+
+func move_toward_position(target: Vector2):
+	var direction = (target - global_position)
+	var distance = direction.length()
+	var step = speed * get_physics_process_delta_time()
+
+	if distance > step:
+		direction = direction.normalized() * step
+	else:
+		direction = direction  # Se estiver muito perto, só completa
+
+	global_position += direction
+
+	
+func update_rotation_to_target(target_pos: Vector2):
+	var direction = (target_pos - global_position).normalized()
+	var angle = direction.angle()
+	var step_angle = PI / 4  # 45 graus
+	var snapped_angle = round(angle / step_angle) * step_angle
+	rotation = snapped_angle + PI  # Ajuste para sprite de costas
+
+func shoot_projectile():
+	var base_angle = shoot_spawn_point.global_rotation
+	var angle_offset = deg_to_rad(30)  # 30 graus em radianos
+	for i in range(-1, 2):  # -1, 0, 1 -> projéteis à esquerda, centro e direita
+		var proj = preload(\"res://Entidades/projectile.tscn\").instantiate()
+		proj.global_position = shoot_spawn_point.global_position
+		proj.rotation = base_angle + i * angle_offset
+		proj.direction = Vector2.RIGHT.rotated(proj.rotation)
+		get_tree().current_scene.add_child(proj)
+
+func apply_damage(damage_amount: int) -> void:
+	health -= damage_amount
+	print(\"Boss recebeu dano, HP:\", health)
+	if health <= 0:
+		queue_free()  # Destroi o boss quando a vida acabar
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vnnf3"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(0, 94, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e80ia"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(48, 94, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cji4w"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(96, 94, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rq2vh"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(144, 94, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_02e3c"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(192, 94, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rltix"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(0, 47, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0r2h"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(48, 47, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4w2p"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(96, 47, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g23ms"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(144, 47, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q2xn4"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(192, 47, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htd37"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(0, 0, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pw45h"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(48, 0, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2qen3"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(96, 0, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xmg1"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(144, 0, 48, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3hddd"]
+atlas = ExtResource("1_h52o0")
+region = Rect2(192, 0, 48, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ujg50"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vnnf3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e80ia")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cji4w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rq2vh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_02e3c")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rltix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f0r2h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u4w2p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g23ms")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q2xn4")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_htd37")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pw45h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2qen3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4xmg1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3hddd")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ajtjc"]
+radius = 19.0263
+
+[node name="Node2D" type="Node2D" groups=["boss"]]
+
+[node name="Head" type="CharacterBody2D" parent="."]
+light_mask = 16
+visibility_layer = 16
+position = Vector2(39, 29)
+script = SubResource("GDScript_a2tef")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Head"]
+sprite_frames = SubResource("SpriteFrames_ujg50")
+animation = &"idle"
+autoplay = "idle"
+frame = 2
+frame_progress = 0.334873
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+position = Vector2(-2, -2)
+shape = SubResource("CircleShape2D_ajtjc")
+debug_color = Color(0.99965, 0.00808568, 0.0658833, 0.42)
+
+[node name="SpawnPoint" type="Node2D" parent="Head"]
+position = Vector2(-3, -1)

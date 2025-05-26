@@ -1,10 +1,11 @@
-[gd_scene load_steps=36 format=3 uid="uid://b63hq5bihimgh"]
+[gd_scene load_steps=37 format=3 uid="uid://b63hq5bihimgh"]
 
-[ext_resource type="Texture2D" uid="uid://c3v00rbstb7qt" path="res://Assets/Inimigos/skeletons/Lanceiro/Attack_2.png" id="1_08k4q"]
-[ext_resource type="Texture2D" uid="uid://dwnve721k0dor" path="res://Assets/Inimigos/skeletons/Lanceiro/Dead.png" id="2_ooxpu"]
-[ext_resource type="Texture2D" uid="uid://dwd1vpu7w3vk0" path="res://Assets/Inimigos/skeletons/Lanceiro/Hurt.png" id="3_cs4rp"]
-[ext_resource type="Texture2D" uid="uid://b6ve6xt8j10fv" path="res://Assets/Inimigos/skeletons/Lanceiro/Idle.png" id="4_v3fn2"]
-[ext_resource type="Texture2D" uid="uid://c4c2c3quaa8hs" path="res://Assets/Inimigos/skeletons/Lanceiro/Run.png" id="5_1u5fw"]
+[ext_resource type="Texture2D" uid="uid://b7d1hls5qhoh4" path="res://Assets/Inimigos/skeletons/Lanceiro/Attack_2.png" id="1_08k4q"]
+[ext_resource type="Texture2D" uid="uid://rikgrghmh166" path="res://Assets/Inimigos/skeletons/Lanceiro/Dead.png" id="2_ooxpu"]
+[ext_resource type="Texture2D" uid="uid://cb0y00yckgx85" path="res://Assets/Inimigos/skeletons/Lanceiro/Hurt.png" id="3_cs4rp"]
+[ext_resource type="Texture2D" uid="uid://dhlgfwe8ppvij" path="res://Assets/Inimigos/skeletons/Lanceiro/Idle.png" id="4_v3fn2"]
+[ext_resource type="Texture2D" uid="uid://bnmxnm7iif6k1" path="res://Assets/Inimigos/skeletons/Lanceiro/Run.png" id="5_1u5fw"]
+[ext_resource type="AudioStream" uid="uid://sh0jgt41oewn" path="res://Sounds/entity_sounds/attack_esqueleto.wav" id="6_ooxpu"]
 
 [sub_resource type="GDScript" id="GDScript_08k4q"]
 script/source = "extends CharacterBody2D
@@ -17,7 +18,7 @@ signal died
 @export var gravity: float = 800.0
 @export var max_health: int = 100
 @export var attack_cooldown := 1.0
-@export var dano = 10
+@export var dano = 15
 
 var is_attacking := false
 var attack_timer := 0.0
@@ -30,6 +31,7 @@ var patrol_direction: int = 1  # 1 = direita, -1 = esquerda
 @onready var ledge_detector: RayCast2D = $LedgeDetector
 @onready var player_detector: Area2D = $PlayerDetector
 @onready var area_attack: Area2D = $AttackArea
+@onready var atk_sound = $ataque
 
 func _ready():
 	current_health = max_health
@@ -99,6 +101,7 @@ func _ataque(body):
 	if body.is_in_group(\"player\") and not is_attacking:
 		is_attacking = true
 		attack_timer = attack_cooldown
+		atk_sound.play()
 		enemy.play(\"attack\")
 
 		if body.has_method(\"apply_damage\"):
@@ -376,3 +379,6 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-6.5, 32)
 shape = SubResource("RectangleShape2D_nf036")
+
+[node name="ataque" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_ooxpu")

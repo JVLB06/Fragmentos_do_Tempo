@@ -1,10 +1,11 @@
-[gd_scene load_steps=42 format=3 uid="uid://ci2w3dh7fb4dh"]
+[gd_scene load_steps=43 format=3 uid="uid://ci2w3dh7fb4dh"]
 
-[ext_resource type="Texture2D" uid="uid://bskhc1ee6h2p1" path="res://Assets/Inimigos/Toaster Bot/attack.png" id="1_kuyu7"]
-[ext_resource type="Texture2D" uid="uid://b7okj8sh764tv" path="res://Assets/Inimigos/Toaster Bot/death.png" id="2_1l5mc"]
-[ext_resource type="Texture2D" uid="uid://cd8bllemhn60h" path="res://Assets/Inimigos/Toaster Bot/damaged.png" id="3_58ixw"]
-[ext_resource type="Texture2D" uid="uid://ckm2j15e6msl3" path="res://Assets/Inimigos/Toaster Bot/idle.png" id="4_02clq"]
-[ext_resource type="Texture2D" uid="uid://dg58ibxibxkfv" path="res://Assets/Inimigos/Toaster Bot/run.png" id="5_rqqoo"]
+[ext_resource type="Texture2D" uid="uid://cgxw6vkx0fkp4" path="res://Assets/Inimigos/Toaster Bot/attack.png" id="1_kuyu7"]
+[ext_resource type="Texture2D" uid="uid://clekn4s6akvb3" path="res://Assets/Inimigos/Toaster Bot/death.png" id="2_1l5mc"]
+[ext_resource type="Texture2D" uid="uid://bg5lkvvkji53b" path="res://Assets/Inimigos/Toaster Bot/damaged.png" id="3_58ixw"]
+[ext_resource type="Texture2D" uid="uid://bkji61s6y6jpc" path="res://Assets/Inimigos/Toaster Bot/idle.png" id="4_02clq"]
+[ext_resource type="Texture2D" uid="uid://bh4hsargi7b2v" path="res://Assets/Inimigos/Toaster Bot/run.png" id="5_rqqoo"]
+[ext_resource type="AudioStream" uid="uid://bve6fjp1tp45g" path="res://Sounds/entity_sounds/attack_bixo_chato.wav" id="6_1l5mc"]
 
 [sub_resource type="GDScript" id="GDScript_mvioo"]
 script/source = "extends CharacterBody2D
@@ -12,12 +13,12 @@ script/source = "extends CharacterBody2D
 signal took_damage(amount)
 signal died
 
-@export var speed: float = 100.0
+@export var speed: float = 50.0
 @export var follow_distance: float = 200.0
 @export var gravity: float = 800.0
-@export var max_health: int = 100
+@export var max_health: int = 200
 @export var attack_cooldown := 1.0
-@export var dano = 10
+@export var dano = 20
 
 var is_attacking := false
 var attack_timer := 0.0
@@ -30,6 +31,7 @@ var patrol_direction: int = 1  # 1 = direita, -1 = esquerda
 @onready var ledge_detector: RayCast2D = $LedgeDetector
 @onready var player_detector: Area2D = $PlayerDetector
 @onready var area_attack: Area2D = $AttackArea
+@onready var atk_sound = $ataque
 
 func _ready():
 	current_health = max_health
@@ -99,6 +101,7 @@ func _ataque(body):
 	if body.is_in_group(\"player\") and not is_attacking:
 		is_attacking = true
 		attack_timer = attack_cooldown
+		atk_sound.play()
 		enemy.play(\"attack\")
 
 		if body.has_method(\"apply_damage\"):
@@ -129,10 +132,10 @@ func update_facing_direction(direction: int):
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ahhoj"]
-size = Vector2(482, 20)
+size = Vector2(482, 35)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnxvc"]
-size = Vector2(153, 20)
+size = Vector2(153, 34)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m264j"]
 atlas = ExtResource("1_kuyu7")
@@ -380,23 +383,25 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ipr4d"]
-size = Vector2(17, 22)
+size = Vector2(17, 34)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = SubResource("GDScript_mvioo")
 
 [node name="WallDetector" type="RayCast2D" parent="."]
-position = Vector2(-33, 12)
+position = Vector2(-33, -1)
 target_position = Vector2(88, 0)
+collision_mask = 7
 
 [node name="LedgeDetector" type="RayCast2D" parent="."]
 position = Vector2(-34, 3)
-target_position = Vector2(25, 17)
+target_position = Vector2(54, 17)
+collision_mask = 7
 
 [node name="PlayerDetector" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
-position = Vector2(2, 10)
+position = Vector2(2, 2.5)
 shape = SubResource("RectangleShape2D_ahhoj")
 debug_color = Color(0.948234, 0.14705, 0.443415, 0.42)
 
@@ -404,12 +409,13 @@ debug_color = Color(0.948234, 0.14705, 0.443415, 0.42)
 position = Vector2(-3, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(-26, 10)
+position = Vector2(-26, 3)
 shape = SubResource("RectangleShape2D_nnxvc")
 debug_color = Color(6.257e-07, 0.637082, 0.396701, 0.42)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 12)
+position = Vector2(11.5, 0.5)
+scale = Vector2(1.21698, 2.04545)
 sprite_frames = SubResource("SpriteFrames_iw86b")
 animation = &"attack"
 autoplay = "idle"
@@ -417,5 +423,8 @@ frame = 9
 frame_progress = 0.396968
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-35.5, 9)
+position = Vector2(-35.5, 3)
 shape = SubResource("RectangleShape2D_ipr4d")
+
+[node name="ataque" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_1l5mc")
