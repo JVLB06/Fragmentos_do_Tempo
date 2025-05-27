@@ -8,39 +8,42 @@
 [ext_resource type="Texture2D" uid="uid://w1o6ekoco5m7" path="res://Assets/Inimigos/wolf/Run.png" id="6_1pc18"]
 
 [sub_resource type="GDScript" id="GDScript_idqry"]
-script/source = "# Script do inimigo patrulheiro
+script/source = "extends CharacterBody2D
 
-extends CharacterBody2D
-
-@export var speed: float = 60.0
+@export var speed: float = 180
 @export var health: int = 150
 @export var damage: int = 10
 
-@onready var ray_down = $Olhos
-@onready var ray_front = $Pes
-@onready var sprite = $AnimatedSprite2D
-@onready var hitbox = $Hitbox  # Area2D
+@onready var ray_down: RayCast2D = $Olhos
+@onready var ray_front: RayCast2D = $Pes
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var hitbox: Area2D = $Hitbox
 
 var direction := -1
 
 func _ready():
-	hitbox.connect(\"body_entered\", Callable(self, \"_on_hitbox_body_entered\"))
+	hitbox.body_entered.connect(_on_hitbox_body_entered)
+	_update_raycasts()
 
 func _physics_process(delta):
-	var velocity = Vector2(direction * speed, 0)
+	# Aplica velocidade na direção da patrulha
+	velocity.x = direction * speed
+	velocity.y = 0  # Como o inimigo patrulha em chão plano, mantemos y zerado
+
+	# Se não houver chão ou houver parede à frente, inverter direção
 	if not ray_down.is_colliding() or ray_front.is_colliding():
 		direction *= -1
-		sprite.play(\"walk\")
-		sprite.flip_h = direction > 0
-		_update_raycasts(velocity)
+		sprite.flip_h = direction < 0
+		_update_raycasts()
 
+	sprite.play(\"walk\")
 	move_and_slide()
-
+	
 func _on_hitbox_body_entered(body):
 	if body.has_method(\"apply_damage\"):
 		body.apply_damage(damage)
 
-func apply_damage(amount):
+func apply_damage(amount: int):
 	health -= amount
 	print(\"Inimigo levou dano: \", amount)
 	sprite.play(\"hurt\")
@@ -48,10 +51,10 @@ func apply_damage(amount):
 		sprite.play(\"morreu\")
 		queue_free()
 
-func _update_raycasts(velocity):
-	if velocity.x > 0:
-		ray_down.position.x *= -1
-		ray_front.position.x *= -1
+func _update_raycasts():
+	var offset = 8.0
+	ray_down.position.x = direction * offset
+	ray_front.position.x = direction * offset
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hdqbf"]

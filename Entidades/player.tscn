@@ -53,7 +53,6 @@ signal attack(damage, area)
 signal Ataque1(damage_attack_1, area)
 signal health_changed(max_health, health)
 signal morreu
-signal player_died
 
 func _on_invuln_timer_timeout():
 	is_hurt = false
@@ -99,6 +98,8 @@ func _physics_process(delta: float) -> void:
 		update_attack_area_position()
 	# Pulo e duplo pulo
 	if Input.is_action_just_pressed(\"ui_accept\"):
+		if walk_sound.playing:
+			walk_sound.stop()
 		if not is_on_floor() and count_pulo < 2:
 			count_pulo += 1
 			velocity.y = JUMP_VELOCITY
@@ -175,10 +176,9 @@ func apply_damage(amount: int):
 		die()
 func die():
 	print(\"Player morreu.\")
-	emit_signal(\"player_died\")
+	emit_signal(\"morreu\")
 	player.play(\"morreu\")
 	death_sound.play()
-	queue_free()
 # Atualizações visuais
 func update_spawn_point():
 	var offset = Vector2(30, 0)
@@ -761,7 +761,7 @@ size = Vector2(68.1563, 29)
 
 [node name="Player" type="Node2D"]
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." groups=["player"]]
 collision_layer = 7
 collision_mask = 7
 script = SubResource("GDScript_vq1si")
@@ -797,7 +797,7 @@ position = Vector2(16, 36)
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 position = Vector2(0, -234)
 limit_top = 0
-limit_bottom = 0
+limit_bottom = 1400
 limit_smoothed = true
 
 [node name="walk" type="AudioStreamPlayer2D" parent="CharacterBody2D"]

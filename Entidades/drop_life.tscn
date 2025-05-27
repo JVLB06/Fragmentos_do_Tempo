@@ -1,0 +1,89 @@
+[gd_scene load_steps=11 format=3 uid="uid://bmh5ag2oo2l55"]
+
+[ext_resource type="Texture2D" uid="uid://dvamqelv6ugc2" path="res://Assets/Player/drop_life.png" id="1_c8udv"]
+
+[sub_resource type="GDScript" id="GDScript_f0oj3"]
+script/source = "extends Node2D
+
+@export var vida_para_curar: int = -50
+
+@onready var area = $Area2D
+
+func _ready():
+	area.connect(\"body_entered\", Callable(self, \"_on_body_entered\"))
+
+func _on_body_entered(body):
+	var owner = body.get_parent()
+	if body.has_method(\"apply_damage\") and owner.is_in_group(\"player\"):
+		body.apply_damage(vida_para_curar)
+		queue_free()
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kg8vg"]
+radius = 14.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xqfkt"]
+atlas = ExtResource("1_c8udv")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5ldt"]
+atlas = ExtResource("1_c8udv")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_82yyr"]
+atlas = ExtResource("1_c8udv")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlb1v"]
+atlas = ExtResource("1_c8udv")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivors"]
+atlas = ExtResource("1_c8udv")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_er844"]
+atlas = ExtResource("1_c8udv")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w5r4k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xqfkt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v5ldt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_82yyr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vlb1v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ivors")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_er844")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[node name="Node2D" type="Node2D"]
+script = SubResource("GDScript_f0oj3")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_kg8vg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
+position = Vector2(9.53674e-07, -4.76837e-07)
+scale = Vector2(2.3125, 1.75)
+sprite_frames = SubResource("SpriteFrames_w5r4k")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.284056
