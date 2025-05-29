@@ -6,24 +6,40 @@
 [ext_resource type="PackedScene" uid="uid://c1qeeakvntkm8" path="res://Entidades/lobo.tscn" id="4_cv4r0"]
 [ext_resource type="PackedScene" uid="uid://b8q5n50ikkgvm" path="res://Entidades/esqueleto.tscn" id="5_2sx2a"]
 [ext_resource type="PackedScene" uid="uid://b63hq5bihimgh" path="res://Entidades/lanceiro.tscn" id="6_akfe8"]
-[ext_resource type="Texture2D" uid="uid://c57hjhy0lcg8r" path="res://Assets/Background/set_3_green/3 Objects/Pointers/3.png" id="7_4m7e3"]
+[ext_resource type="Texture2D" uid="uid://bo35wxg1l7y2e" path="res://Assets/Background/set_3_green/3 Objects/Pointers/3.png" id="7_4m7e3"]
 [ext_resource type="PackedScene" uid="uid://bmh5ag2oo2l55" path="res://Entidades/drop_life.tscn" id="7_owhp6"]
-[ext_resource type="Texture2D" uid="uid://cau7o5a367cn1" path="res://Assets/Background/red_crystal.png" id="8_cfvgt"]
-[ext_resource type="Texture2D" uid="uid://ctji23pwkker7" path="res://Assets/Background/set_3_green/3 Objects/Pointers/5.png" id="8_owhp6"]
-[ext_resource type="Texture2D" uid="uid://be86w4pcwsgs4" path="res://Assets/Background/set_3_green/3 Objects/Pointers/8.png" id="9_cfvgt"]
-[ext_resource type="AudioStream" uid="uid://cdw0c7qltv4y7" path="res://Sounds/music/fase1_theme.mp3" id="12_dxe08"]
+[ext_resource type="Texture2D" uid="uid://de0ntseiu6w5x" path="res://Assets/Player/red_crystal.png" id="8_dxe08"]
+[ext_resource type="Texture2D" uid="uid://3wbif4u2btuu" path="res://Assets/Background/set_3_green/3 Objects/Pointers/5.png" id="8_owhp6"]
+[ext_resource type="Texture2D" uid="uid://cf5m144alhqx3" path="res://Assets/Background/set_3_green/3 Objects/Pointers/8.png" id="9_cfvgt"]
+[ext_resource type="AudioStream" uid="uid://dlsjfciamgcdj" path="res://Sounds/music/fase1_theme.mp3" id="12_dxe08"]
 
 [sub_resource type="GDScript" id="GDScript_2o7im"]
 script/source = "extends Node2D
 
-@onready var player_node = $Player.get_node(\"CharacterBody2D\")  # ou substitua pelo nome real do nó filho
+@onready var player_node = $Player.get_node(\"CharacterBody2D\")
 @onready var musica = $Background_music
+var pause_menu_instance: Node = null  # guarda referência para evitar duplicatas
 
 func _ready():
 	musica.stream.loop = true
 	musica.play()
 	await get_tree().process_frame
 	player_node.morreu.connect(_on_player_died)
+
+func _process(_delta):
+	if Input.is_action_just_pressed(\"pause_game\"):
+		_toggle_pause_menu()
+
+func _toggle_pause_menu():
+	if pause_menu_instance == null:
+		var pause_scene = load(\"res://UI/Scenes/menu_de_pause.tscn\")
+		pause_menu_instance = pause_scene.instantiate()
+		add_child(pause_menu_instance)
+		get_tree().paused = true
+	else:
+		pause_menu_instance.queue_free()
+		pause_menu_instance = null
+		get_tree().paused = false
 
 func _on_player_died():
 	get_tree().reload_current_scene()
@@ -62,6 +78,7 @@ func _ready():
 	area_cura.body_entered.connect(_on_area_cura_entered)
 
 func _on_area_cura_entered(body):
+	# Abrir Menu de próxima fase
 	if body.has_method(\"apply_damage\"):
 		body.apply_damage(cura)
 "
@@ -181,7 +198,7 @@ shape = SubResource("CircleShape2D_yhwn7")
 
 [node name="Sprite2D" type="Sprite2D" parent="Drops/Cristal/Cristal_do_tempo"]
 position = Vector2(0, 1)
-texture = ExtResource("8_cfvgt")
+texture = ExtResource("8_dxe08")
 
 [node name="Estruturas" type="Node2D" parent="."]
 position = Vector2(6636, -256)
