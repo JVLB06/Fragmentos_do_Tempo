@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqnuvlkfi63ah"]
+
+[ext_resource type="Script" uid="uid://dy6b322veml8t" path="res://UI/Scripts/menu_de_pause.gd" id="1_3lmcn"]
+[ext_resource type="Texture2D" uid="uid://8tk8d23615yv" path="res://Assets/UI/sprites/botaoPlay.tres" id="2_udlho"]
+[ext_resource type="Texture2D" uid="uid://2nk3lyrndwir" path="res://Assets/UI/sprites/botaoSair.tres" id="3_6sych"]
+
+[node name="Menu de pause" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3lmcn")
+
+[node name="Continuar" type="Button" parent="."]
+process_mode = 3
+layout_mode = 0
+offset_left = 611.0
+offset_top = 343.0
+offset_right = 671.0
+offset_bottom = 366.0
+action_mode = 0
+icon = ExtResource("2_udlho")
+
+[node name="Sair" type="Button" parent="."]
+process_mode = 3
+layout_mode = 0
+offset_left = 609.0
+offset_top = 184.0
+offset_right = 669.0
+offset_bottom = 207.0
+toggle_mode = true
+icon = ExtResource("3_6sych")
+
+[connection signal="pressed" from="Continuar" to="." method="_on_continuar_pressed"]
+[connection signal="pressed" from="Sair" to="." method="_on_sair_pressed"]
