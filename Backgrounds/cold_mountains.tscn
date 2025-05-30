@@ -9,66 +9,89 @@
 [ext_resource type="Texture2D" uid="uid://b6xchfujj6i2f" path="res://Assets/Background/set_1_cold_mountains/7.png" id="7_tqdmr"]
 
 [node name="ParallaxBackground" type="ParallaxBackground"]
+scroll_ignore_camera_zoom = true
 
 [node name="sky" type="ParallaxLayer" parent="."]
 motion_scale = Vector2(0, 0)
-motion_mirroring = Vector2(2997, 3000)
+motion_mirroring = Vector2(1280, 720)
 
 [node name="Sprite2D" type="Sprite2D" parent="sky"]
-position = Vector2(576.5, 323.5)
-scale = Vector2(2.9974, 3.00463)
+texture_repeat = 2
+position = Vector2(640, 371.5)
+scale = Vector2(2, 2.06389)
 texture = ExtResource("1_xenjs")
+region_enabled = true
+region_rect = Rect2(0, 0, 640, 360)
 
 [node name="clouds_bg" type="ParallaxLayer" parent="."]
 motion_scale = Vector2(0.1, 0.1)
-motion_mirroring = Vector2(2997, 0)
+motion_mirroring = Vector2(1280, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="clouds_bg"]
-position = Vector2(577, 323.5)
-scale = Vector2(2.99479, 3.00463)
+texture_repeat = 2
+position = Vector2(640, 358.149)
+scale = Vector2(3.20312, 3.07081)
 texture = ExtResource("2_aancr")
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 250)
 
 [node name="mountains" type="ParallaxLayer" parent="."]
 motion_scale = Vector2(0.2, 0.2)
-motion_mirroring = Vector2(2997, 0)
+motion_mirroring = Vector2(1280, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="mountains"]
-position = Vector2(576.5, 323.5)
-scale = Vector2(2.9974, 3.00463)
+texture_repeat = 2
+position = Vector2(640.5, 374.211)
+scale = Vector2(3.1975, 2.95031)
 texture = ExtResource("3_widot")
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 250)
 
 [node name="cold_clouds" type="ParallaxLayer" parent="."]
 motion_scale = Vector2(0.3, 0.3)
-motion_mirroring = Vector2(2997, 0)
+motion_mirroring = Vector2(1280, 720)
 
 [node name="Sprite2D" type="Sprite2D" parent="cold_clouds"]
-position = Vector2(576.5, 323.5)
-scale = Vector2(2.9974, 3.00463)
+texture_repeat = 2
+position = Vector2(640.156, 399.301)
+scale = Vector2(3.19422, 3.21359)
 texture = ExtResource("4_5c81f")
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 250)
 
 [node name="under_clouds" type="ParallaxLayer" parent="."]
 motion_scale = Vector2(0.4, 0.4)
-motion_mirroring = Vector2(2997, 0)
+motion_mirroring = Vector2(1280, 720)
 
 [node name="Sprite2D" type="Sprite2D" parent="under_clouds"]
-position = Vector2(576.5, 323.5)
-scale = Vector2(2.9974, 3.00463)
+texture_repeat = 2
+position = Vector2(640.5, 435)
+scale = Vector2(3.1975, 3.48)
 texture = ExtResource("5_jbcwr")
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 250)
 
 [node name="down" type="ParallaxLayer" parent="."]
 motion_scale = Vector2(0.5, 0.5)
-motion_mirroring = Vector2(2997, 0)
+motion_mirroring = Vector2(1280, 720)
 
 [node name="Sprite2D" type="Sprite2D" parent="down"]
-position = Vector2(576.5, 323.5)
-scale = Vector2(2.9974, 3.00463)
+texture_repeat = 2
+position = Vector2(638.5, 434.5)
+scale = Vector2(3.1925, 3.452)
 texture = ExtResource("6_no73i")
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 250)
 
 [node name="lonely cloud" type="ParallaxLayer" parent="."]
+position = Vector2(617, 317)
 motion_scale = Vector2(0.8, 0.8)
 motion_mirroring = Vector2(2997, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="lonely cloud"]
-position = Vector2(578.5, 323.5)
-scale = Vector2(2.98698, 3.00463)
+texture_repeat = 2
+position = Vector2(24, 41.5)
+scale = Vector2(3.195, 2.868)
 texture = ExtResource("7_tqdmr")
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 250)
