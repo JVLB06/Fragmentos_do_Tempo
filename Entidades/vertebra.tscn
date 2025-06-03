@@ -1,6 +1,6 @@
 [gd_scene load_steps=45 format=3 uid="uid://3qi3f6lthpja"]
 
-[ext_resource type="Texture2D" uid="uid://4330wad7w7td" path="res://Assets/Inimigos/dead_snake/corpo.png" id="1_nkee6"]
+[ext_resource type="Texture2D" uid="uid://nloanbkl8gfn" path="res://Assets/Inimigos/dead_snake/corpo.png" id="1_nkee6"]
 
 [sub_resource type="GDScript" id="GDScript_nkee6"]
 script/source = "extends Area2D
@@ -368,6 +368,8 @@ radius = 12.0416
 light_mask = 32
 visibility_layer = 32
 position = Vector2(75, 6)
+collision_layer = 14
+collision_mask = 14
 script = SubResource("GDScript_nkee6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -375,6 +377,8 @@ sprite_frames = SubResource("SpriteFrames_2ntmg")
 animation = &"270"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+light_mask = 14
+visibility_layer = 14
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_rdrlu")
 debug_color = Color(0, 0.638526, 0.377474, 0.42)
