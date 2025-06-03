@@ -6,12 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://c1qeeakvntkm8" path="res://Entidades/lobo.tscn" id="4_cv4r0"]
 [ext_resource type="PackedScene" uid="uid://b8q5n50ikkgvm" path="res://Entidades/esqueleto.tscn" id="5_2sx2a"]
 [ext_resource type="PackedScene" uid="uid://b63hq5bihimgh" path="res://Entidades/lanceiro.tscn" id="6_akfe8"]
-[ext_resource type="Texture2D" uid="uid://bo35wxg1l7y2e" path="res://Assets/Background/set_3_green/3 Objects/Pointers/3.png" id="7_4m7e3"]
+[ext_resource type="Texture2D" uid="uid://cdj8ms0n2sq2" path="res://Assets/Background/set_3_green/3 Objects/Pointers/3.png" id="7_4m7e3"]
 [ext_resource type="PackedScene" uid="uid://bmh5ag2oo2l55" path="res://Entidades/drop_life.tscn" id="7_owhp6"]
-[ext_resource type="Texture2D" uid="uid://de0ntseiu6w5x" path="res://Assets/Player/red_crystal.png" id="8_dxe08"]
-[ext_resource type="Texture2D" uid="uid://3wbif4u2btuu" path="res://Assets/Background/set_3_green/3 Objects/Pointers/5.png" id="8_owhp6"]
-[ext_resource type="Texture2D" uid="uid://cf5m144alhqx3" path="res://Assets/Background/set_3_green/3 Objects/Pointers/8.png" id="9_cfvgt"]
-[ext_resource type="AudioStream" uid="uid://dlsjfciamgcdj" path="res://Sounds/music/fase1_theme.mp3" id="12_dxe08"]
+[ext_resource type="Texture2D" uid="uid://c7u41idfff78j" path="res://Assets/Player/red_crystal.png" id="8_dxe08"]
+[ext_resource type="Texture2D" uid="uid://5cy8br2veab6" path="res://Assets/Background/set_3_green/3 Objects/Pointers/5.png" id="8_owhp6"]
+[ext_resource type="Texture2D" uid="uid://dd25osy16pccs" path="res://Assets/Background/set_3_green/3 Objects/Pointers/8.png" id="9_cfvgt"]
+[ext_resource type="AudioStream" uid="uid://672h5m7b3cm7" path="res://Sounds/music/fase1_theme.mp3" id="12_dxe08"]
 
 [sub_resource type="GDScript" id="GDScript_2o7im"]
 script/source = "extends Node2D
@@ -71,16 +71,15 @@ size = Vector2(130, 990.5)
 [sub_resource type="GDScript" id="GDScript_cfvgt"]
 script/source = "extends Node2D
 
-@export var cura: int = 1000
+@export var proxima_fase: String = \"res://Fases/level_2.tscn\"  # Caminho para a próxima fase
+
 @onready var area_cura = $Cristal_do_tempo
 
 func _ready():
 	area_cura.body_entered.connect(_on_area_cura_entered)
 
 func _on_area_cura_entered(body):
-	# Abrir Menu de próxima fase
-	if body.has_method(\"apply_damage\"):
-		body.apply_damage(cura)
+	get_tree().change_scene_to_file(proxima_fase)
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yhwn7"]
