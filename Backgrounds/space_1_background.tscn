@@ -10,7 +10,7 @@
 
 [node name="Space" type="ParallaxLayer" parent="."]
 motion_scale = Vector2(0.1, 0.1)
-motion_mirroring = Vector2(1281.12, 0)
+motion_mirroring = Vector2(1281.12, 736)
 
 [node name="Sprite2D" type="Sprite2D" parent="Space"]
 position = Vector2(641, 368)
