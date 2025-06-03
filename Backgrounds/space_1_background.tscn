@@ -1,0 +1,99 @@
+[gd_scene load_steps=6 format=3 uid="uid://by10klyq024bk"]
+
+[ext_resource type="Texture2D" uid="uid://dii5jgkx3v3wb" path="res://Assets/Background/space_background_pack/Blue Version/blue-back.png" id="1_tc51g"]
+[ext_resource type="Texture2D" uid="uid://byonq8q5q2rd" path="res://Assets/Background/space_background_pack/Blue Version/blue-stars.png" id="2_v03ha"]
+[ext_resource type="Texture2D" uid="uid://dpicvidxlstcr" path="res://Assets/Background/space_background_pack/Blue Version/prop-planet-big.png" id="3_ix1bk"]
+[ext_resource type="Texture2D" uid="uid://dni72pyv6watr" path="res://Assets/Background/space_background_pack/Blue Version/asteroid-1.png" id="4_2rfnw"]
+[ext_resource type="Texture2D" uid="uid://dnobfttcpmb82" path="res://Assets/Background/space_background_pack/Blue Version/asteroid-2.png" id="5_yn5ix"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+
+[node name="Space" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1281.12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Space"]
+position = Vector2(641, 368)
+scale = Vector2(4.71323, 4.6)
+texture = ExtResource("1_tc51g")
+
+[node name="Stars" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(1281.12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Stars"]
+position = Vector2(641, 368)
+scale = Vector2(4.71323, 4.6)
+texture = ExtResource("2_v03ha")
+
+[node name="Planet" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(1281.12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Planet"]
+position = Vector2(545, 374)
+scale = Vector2(7.96127, 7.7186)
+texture = ExtResource("3_ix1bk")
+
+[node name="Asteroide" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(1281.12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Asteroide"]
+position = Vector2(136, 96)
+scale = Vector2(2.79314, 3.11856)
+texture = ExtResource("4_2rfnw")
+
+[node name="Asteroide2" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(1281.12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Asteroide2"]
+position = Vector2(761, 597)
+scale = Vector2(2.79314, 3.11856)
+texture = ExtResource("4_2rfnw")
+
+[node name="Asteroide3" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(1281.12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Asteroide3"]
+position = Vector2(260, 491)
+scale = Vector2(2.79314, 3.11856)
+texture = ExtResource("4_2rfnw")
+
+[node name="Asteroide4" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(1281.12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Asteroide4"]
+position = Vector2(191, 280)
+scale = Vector2(2.79314, 3.11856)
+texture = ExtResource("5_yn5ix")
+
+[node name="Asteroide5" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(1281.12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Asteroide5"]
+position = Vector2(954, 501)
+scale = Vector2(2.79314, 3.11856)
+texture = ExtResource("5_yn5ix")
+
+[node name="Asteroide6" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(1281.12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Asteroide6"]
+position = Vector2(802, 105)
+scale = Vector2(2.79314, 3.11856)
+texture = ExtResource("4_2rfnw")
+
+[node name="Asteroide7" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(1281.12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Asteroide7"]
+position = Vector2(1023, 239)
+scale = Vector2(2.79314, 3.11856)
+texture = ExtResource("5_yn5ix")
