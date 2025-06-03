@@ -1,21 +1,21 @@
 [gd_scene load_steps=93 format=3 uid="uid://d3p25wh13vmt3"]
 
 [ext_resource type="PackedScene" uid="uid://csh4vy5eop6be" path="res://Entidades/projetil.tscn" id="1_2qwue"]
-[ext_resource type="Texture2D" uid="uid://cbihpscykpb0p" path="res://Assets/Player/Attack_1.png" id="1_7ftqi"]
-[ext_resource type="Texture2D" uid="uid://cc7d4u88u32hy" path="res://Assets/Player/Attack_2.png" id="2_m6q7m"]
-[ext_resource type="Texture2D" uid="uid://bwpywxgi1lchh" path="res://Assets/Player/Hurt.png" id="3_2qwue"]
-[ext_resource type="Texture2D" uid="uid://ca55rnkvbj1ub" path="res://Assets/Player/Idle.png" id="4_gpt77"]
-[ext_resource type="Texture2D" uid="uid://cid4lhdkgop0u" path="res://Assets/Player/Magic_sphere.png" id="5_13jiw"]
-[ext_resource type="Texture2D" uid="uid://cx837xiy5lp2y" path="res://Assets/Player/Jump.png" id="5_m6q7m"]
-[ext_resource type="Texture2D" uid="uid://l6wcbbr87hdi" path="res://Assets/Player/Run.png" id="6_cc42t"]
-[ext_resource type="Texture2D" uid="uid://chfepr8ieqb5e" path="res://Assets/Player/Walk.png" id="7_mc76o"]
-[ext_resource type="Texture2D" uid="uid://wdduh3qjgiya" path="res://Assets/Player/Dead.png" id="8_gpt77"]
-[ext_resource type="AudioStream" uid="uid://csinjddudo681" path="res://Sounds/entity_sounds/run.mp3" id="11_3i2lo"]
-[ext_resource type="AudioStream" uid="uid://cg3qehpytly3j" path="res://Sounds/entity_sounds/attack.wav" id="12_8q2kj"]
-[ext_resource type="AudioStream" uid="uid://v60mbx2t65ix" path="res://Sounds/entity_sounds/long_shoot.wav" id="13_lqdca"]
-[ext_resource type="AudioStream" uid="uid://crermf646kbpy" path="res://Sounds/entity_sounds/jump.wav" id="14_dxmyr"]
-[ext_resource type="AudioStream" uid="uid://wx31fp7okaa" path="res://Sounds/entity_sounds/hit.wav" id="15_e6uji"]
-[ext_resource type="AudioStream" uid="uid://1cunaioiimoa" path="res://Sounds/entity_sounds/death.wav" id="16_d82mx"]
+[ext_resource type="Texture2D" uid="uid://cfrgh2d5tfwfi" path="res://Assets/Player/Attack_1.png" id="1_7ftqi"]
+[ext_resource type="Texture2D" uid="uid://bc7wfkd0i1eq" path="res://Assets/Player/Attack_2.png" id="2_m6q7m"]
+[ext_resource type="Texture2D" uid="uid://dyljnhvc2h7f7" path="res://Assets/Player/Hurt.png" id="3_2qwue"]
+[ext_resource type="Texture2D" uid="uid://bmbr582s3x7q2" path="res://Assets/Player/Idle.png" id="4_gpt77"]
+[ext_resource type="Texture2D" uid="uid://c0nn1p4g5qwv3" path="res://Assets/Player/Magic_sphere.png" id="5_13jiw"]
+[ext_resource type="Texture2D" uid="uid://d1ty7g8idjkw" path="res://Assets/Player/Jump.png" id="5_m6q7m"]
+[ext_resource type="Texture2D" uid="uid://d28s44xamv3o1" path="res://Assets/Player/Run.png" id="6_cc42t"]
+[ext_resource type="Texture2D" uid="uid://ch6o1e2e2v6hk" path="res://Assets/Player/Walk.png" id="7_mc76o"]
+[ext_resource type="Texture2D" uid="uid://6wnm6gw4pkcx" path="res://Assets/Player/Dead.png" id="8_gpt77"]
+[ext_resource type="AudioStream" uid="uid://bh7w0cxmv5n8b" path="res://Sounds/entity_sounds/run.mp3" id="11_3i2lo"]
+[ext_resource type="AudioStream" uid="uid://bayk6oj3gv0x2" path="res://Sounds/entity_sounds/attack.wav" id="12_8q2kj"]
+[ext_resource type="AudioStream" uid="uid://dlwpfsaqkhkaf" path="res://Sounds/entity_sounds/long_shoot.wav" id="13_lqdca"]
+[ext_resource type="AudioStream" uid="uid://c5uvhm5gywej7" path="res://Sounds/entity_sounds/jump.wav" id="14_dxmyr"]
+[ext_resource type="AudioStream" uid="uid://dkmx3qvcg3ow" path="res://Sounds/entity_sounds/hit.wav" id="15_e6uji"]
+[ext_resource type="AudioStream" uid="uid://b6u1xdwcy7bdq" path="res://Sounds/entity_sounds/death.wav" id="16_d82mx"]
 
 [sub_resource type="GDScript" id="GDScript_vq1si"]
 script/source = "extends CharacterBody2D
@@ -795,8 +795,8 @@ position = Vector2(16, 36)
 [node name="InvulnTimer" type="Timer" parent="CharacterBody2D"]
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
-position = Vector2(0, -234)
-limit_top = 0
+position = Vector2(0, -128)
+limit_top = -1400
 limit_bottom = 1400
 limit_smoothed = true
 

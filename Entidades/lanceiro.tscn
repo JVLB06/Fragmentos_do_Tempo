@@ -1,11 +1,11 @@
 [gd_scene load_steps=37 format=3 uid="uid://b63hq5bihimgh"]
 
-[ext_resource type="Texture2D" uid="uid://b7d1hls5qhoh4" path="res://Assets/Inimigos/skeletons/Lanceiro/Attack_2.png" id="1_08k4q"]
-[ext_resource type="Texture2D" uid="uid://rikgrghmh166" path="res://Assets/Inimigos/skeletons/Lanceiro/Dead.png" id="2_ooxpu"]
-[ext_resource type="Texture2D" uid="uid://cb0y00yckgx85" path="res://Assets/Inimigos/skeletons/Lanceiro/Hurt.png" id="3_cs4rp"]
-[ext_resource type="Texture2D" uid="uid://dhlgfwe8ppvij" path="res://Assets/Inimigos/skeletons/Lanceiro/Idle.png" id="4_v3fn2"]
-[ext_resource type="Texture2D" uid="uid://bnmxnm7iif6k1" path="res://Assets/Inimigos/skeletons/Lanceiro/Run.png" id="5_1u5fw"]
-[ext_resource type="AudioStream" uid="uid://sh0jgt41oewn" path="res://Sounds/entity_sounds/attack_esqueleto.wav" id="6_ooxpu"]
+[ext_resource type="Texture2D" uid="uid://bc5tnumb7vv2v" path="res://Assets/Inimigos/skeletons/Lanceiro/Attack_2.png" id="1_08k4q"]
+[ext_resource type="Texture2D" uid="uid://c2kojv45mrbmw" path="res://Assets/Inimigos/skeletons/Lanceiro/Dead.png" id="2_ooxpu"]
+[ext_resource type="Texture2D" uid="uid://ca2et2emu1yex" path="res://Assets/Inimigos/skeletons/Lanceiro/Hurt.png" id="3_cs4rp"]
+[ext_resource type="Texture2D" uid="uid://bws26fa6m7itx" path="res://Assets/Inimigos/skeletons/Lanceiro/Idle.png" id="4_v3fn2"]
+[ext_resource type="Texture2D" uid="uid://ckf8rm0xbvjep" path="res://Assets/Inimigos/skeletons/Lanceiro/Run.png" id="5_1u5fw"]
+[ext_resource type="AudioStream" uid="uid://dugyh811hi80g" path="res://Sounds/entity_sounds/attack_esqueleto.wav" id="6_ooxpu"]
 
 [sub_resource type="GDScript" id="GDScript_08k4q"]
 script/source = "extends CharacterBody2D
@@ -25,6 +25,8 @@ var attack_timer := 0.0
 var current_health: int
 var target: Node2D = null
 var patrol_direction: int = 1  # 1 = direita, -1 = esquerda
+var corpos_na_area: Array[Node2D] = []
+var animation_locked: bool = false
 
 @onready var enemy: AnimatedSprite2D = $AnimatedSprite2D
 @onready var wall_detector: RayCast2D = $WallDetector
@@ -37,7 +39,9 @@ func _ready():
 	current_health = max_health
 	player_detector.body_entered.connect(_on_body_entered)
 	player_detector.body_exited.connect(_on_body_exited)
-	area_attack.body_entered.connect(_ataque)
+	area_attack.body_entered.connect(_on_attack_area_entered)
+	area_attack.body_exited.connect(_on_attack_area_exited)
+	enemy.animation_finished.connect(_on_animation_finished)
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -50,26 +54,31 @@ func _physics_process(delta):
 		if attack_timer <= 0:
 			is_attacking = false
 	else:
+		for body in corpos_na_area:
+			if body.is_in_group(\"player\"):
+				_iniciar_ataque(body)
+				break
+
+	if animation_locked:
+		velocity.x = 0  # Para impedir movimento durante animações travadas
+	else:
 		if target:
-			# Seguir o player
 			var direction = sign(target.global_position.x - global_position.x)
 			var distance = global_position.distance_to(target.global_position)
-			
+
 			if distance <= follow_distance and _can_move(direction):
 				velocity.x = direction * speed
-				enemy.play(\"walk\")
 				update_facing_direction(direction)
+				enemy.play(\"walk\")
 			else:
 				velocity.x = 0
 				enemy.play(\"idle\")
 		else:
-			# Patrulha
 			if _can_move(patrol_direction):
 				velocity.x = patrol_direction * speed
-				enemy.play(\"walk\")
 				update_facing_direction(patrol_direction)
+				enemy.play(\"walk\")
 			else:
-				# Inverte direção se bateu na parede ou não tem chão
 				patrol_direction *= -1
 				velocity.x = 0
 				enemy.play(\"idle\")
@@ -77,9 +86,11 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _can_move(direction: int) -> bool:
-	# Ajusta sensores para o lado da movimentação
-	wall_detector.target_position.x = direction * 10
-	ledge_detector.target_position.x = direction * 10
+	wall_detector.position.x = 10 * direction
+	wall_detector.target_position.x = 10 * direction
+
+	ledge_detector.position.x = 10 * direction
+	ledge_detector.target_position.x = 10 * direction
 
 	wall_detector.force_raycast_update()
 	ledge_detector.force_raycast_update()
@@ -97,38 +108,56 @@ func _on_body_exited(body):
 	if body == target:
 		target = null
 
-func _ataque(body):
-	if body.is_in_group(\"player\") and not is_attacking:
-		is_attacking = true
-		attack_timer = attack_cooldown
-		atk_sound.play()
-		enemy.play(\"attack\")
+func _on_attack_area_entered(body):
+	if body.is_in_group(\"player\"):
+		corpos_na_area.append(body)
+	else: 
+		patrol_direction *= -1
+		velocity.x = patrol_direction * speed
 
-		if body.has_method(\"apply_damage\"):
-			body.apply_damage(dano)
+func _on_attack_area_exited(body):
+	if body in corpos_na_area:
+		corpos_na_area.erase(body)
+
+func _iniciar_ataque(body):
+	is_attacking = true
+	attack_timer = attack_cooldown
+	animation_locked = true
+	enemy.play(\"attack\")
+	atk_sound.play()
+
+	if body.has_method(\"apply_damage\"):
+		body.apply_damage(dano)
 
 func apply_damage(amount: int):
 	current_health -= amount
 	enemy.play(\"hurt\")
+	animation_locked = true
 	emit_signal(\"took_damage\", amount)
+
 	if current_health <= 0:
 		enemy.play(\"die\")
+		animation_locked = true
 		emit_signal(\"died\")
 		queue_free()
+
+func _on_animation_finished():
+	# Libera animações após ataque ou dano, se não estiver morrendo
+	if enemy.animation in [\"attack\", \"hurt\"]:
+		animation_locked = false
 
 func update_facing_direction(direction: int):
 	enemy.scale.x = direction
 
-	# Atualiza manualmente os elementos que não respondem ao flip do sprite
-	area_attack.position.x = abs(area_attack.position.x) * direction
-	player_detector.position.x = abs(player_detector.position.x) * direction
-	$CollisionShape2D.position.x = abs($CollisionShape2D.position.x) * direction
+	area_attack.position.x = 10 * direction
+	player_detector.position.x = 10 * direction
+	$CollisionShape2D.position.x = 10 * direction
 
-	wall_detector.position.x = abs(wall_detector.position.x) * direction
-	wall_detector.target_position.x = abs(wall_detector.target_position.x) * direction
+	#wall_detector.position.x = 10 * direction
+	wall_detector.target_position.x = 10 * direction
 
-	ledge_detector.position.x = abs(ledge_detector.position.x) * direction
-	ledge_detector.target_position.x = abs(ledge_detector.target_position.x) * direction
+	ledge_detector.position.x = 10 * direction
+	ledge_detector.target_position.x = 10 * direction
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_635sl"]
@@ -252,7 +281,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f3eki")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
 "speed": 5.0
 }, {
@@ -348,8 +377,9 @@ script = SubResource("GDScript_08k4q")
 
 [node name="WallDetector" type="RayCast2D" parent="."]
 position = Vector2(0, 35)
-target_position = Vector2(70, -3)
-collision_mask = 12
+target_position = Vector2(48, -1)
+collision_mask = 255
+collide_with_areas = true
 
 [node name="LedgeDetector" type="RayCast2D" parent="."]
 position = Vector2(0, 33)
@@ -374,7 +404,7 @@ debug_color = Color(0, 0.637428, 0.392201, 0.42)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, -1)
 sprite_frames = SubResource("SpriteFrames_0y2uh")
-animation = &"idle"
+animation = &"attack"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
