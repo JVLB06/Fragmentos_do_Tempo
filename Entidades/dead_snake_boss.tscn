@@ -1,10 +1,16 @@
-[gd_scene load_steps=20 format=3 uid="uid://bkaapwpltfjk6"]
+[gd_scene load_steps=25 format=3 uid="uid://bkaapwpltfjk6"]
 
-[ext_resource type="Texture2D" uid="uid://b8dqq7ktlpt7c" path="res://Assets/Inimigos/dead_snake/head.png" id="1_h52o0"]
+[ext_resource type="Texture2D" uid="uid://bjhtrbo8i2wu3" path="res://Assets/Inimigos/dead_snake/head.png" id="1_h52o0"]
+[ext_resource type="AudioStream" uid="uid://ck4xxxnegsqnr" path="res://Sounds/entity_sounds/boss_shoot.wav" id="2_e80ia"]
+[ext_resource type="AudioStream" uid="uid://b8pa2demmnrhn" path="res://Sounds/entity_sounds/boss_preset.wav" id="3_cji4w"]
+[ext_resource type="AudioStream" uid="uid://b41ceyeckfgus" path="res://Sounds/entity_sounds/boss_death.wav" id="4_rq2vh"]
+[ext_resource type="AudioStream" uid="uid://kvqaw2rh7cij" path="res://Sounds/entity_sounds/boss_random.wav" id="5_02e3c"]
+[ext_resource type="AudioStream" uid="uid://w3m6dfxhh2dt" path="res://Sounds/entity_sounds/boss_random1.wav" id="6_rltix"]
 
 [sub_resource type="GDScript" id="GDScript_a2tef"]
 script/source = "extends CharacterBody2D
 
+signal morreu
 @export var speed: float = 180.0
 @export var shoot_height: float = 140.0
 @export var top_height: float = 200.0
@@ -14,6 +20,11 @@ script/source = "extends CharacterBody2D
 
 @onready var shoot_spawn_point = $SpawnPoint
 @onready var head = $AnimatedSprite2D
+@onready var shoot_sound = $Shoot
+@onready var presente_sound = $Present
+@onready var death_sound = $Death
+@onready var random_1 = $Random_1
+@onready var random_2 = $Random_2
 var VertebraScene = preload(\"res://Entidades/vertebra.tscn\")
 var vertebras = []
 var position_history := []
@@ -36,6 +47,7 @@ func _ready():
 		player = players[0]
 	else:
 		push_warning(\"Nenhum nó no grupo 'player' foi encontrado.\")
+	presente_sound.play()
 func spawn_vertebras():
 	for i in range(20):
 		var v = VertebraScene.instantiate()
@@ -53,9 +65,11 @@ func _physics_process(delta):
 	match phase:
 		\"hunt\":
 			head.play(\"idle\")
+			random_2.play()
 			update_rotation_to_target(player.global_position)
 			move_toward_position(player.global_position)
 			if global_position.distance_to(player.global_position) <= 54:
+				random_1.play()
 				phase = \"ascend_to_shoot\"
 
 		\"ascend_to_shoot\":
@@ -117,6 +131,7 @@ func update_rotation_to_target(target_pos: Vector2):
 func shoot_projectile():
 	var base_angle = shoot_spawn_point.global_rotation
 	var angle_offset = deg_to_rad(30)  # 30 graus em radianos
+	shoot_sound.play()
 	for i in range(-1, 2):  # -1, 0, 1 -> projéteis à esquerda, centro e direita
 		var proj = preload(\"res://Entidades/projectile.tscn\").instantiate()
 		proj.global_position = shoot_spawn_point.global_position
@@ -128,6 +143,8 @@ func apply_damage(damage_amount: int) -> void:
 	health -= damage_amount
 	print(\"Boss recebeu dano, HP:\", health)
 	if health <= 0:
+		death_sound.play()
+		emit_signal(\"morreu\")
 		queue_free()  # Destroi o boss quando a vida acabar
 "
 
@@ -263,6 +280,8 @@ radius = 19.0263
 light_mask = 16
 visibility_layer = 16
 position = Vector2(39, 29)
+collision_layer = 14
+collision_mask = 14
 script = SubResource("GDScript_a2tef")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Head"]
@@ -273,9 +292,31 @@ frame = 2
 frame_progress = 0.334873
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+light_mask = 30
+visibility_layer = 30
 position = Vector2(-2, -2)
 shape = SubResource("CircleShape2D_ajtjc")
 debug_color = Color(0.99965, 0.00808568, 0.0658833, 0.42)
 
 [node name="SpawnPoint" type="Node2D" parent="Head"]
 position = Vector2(-3, -1)
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="Head"]
+stream = ExtResource("2_e80ia")
+
+[node name="Present" type="AudioStreamPlayer2D" parent="Head"]
+stream = ExtResource("3_cji4w")
+volume_db = 24.0
+pitch_scale = 1.6
+
+[node name="Death" type="AudioStreamPlayer2D" parent="Head"]
+stream = ExtResource("4_rq2vh")
+volume_db = 14.667
+pitch_scale = 1.65
+
+[node name="Random_1" type="AudioStreamPlayer2D" parent="Head"]
+stream = ExtResource("5_02e3c")
+
+[node name="Random_2" type="AudioStreamPlayer2D" parent="Head"]
+stream = ExtResource("6_rltix")
+pitch_scale = 1.6
