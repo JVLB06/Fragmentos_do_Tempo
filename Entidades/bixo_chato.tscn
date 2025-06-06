@@ -1,11 +1,11 @@
 [gd_scene load_steps=43 format=3 uid="uid://ci2w3dh7fb4dh"]
 
-[ext_resource type="Texture2D" uid="uid://djv7n1t7mtmdk" path="res://Assets/Inimigos/Toaster Bot/attack.png" id="1_kuyu7"]
-[ext_resource type="Texture2D" uid="uid://chalsi00w6c1e" path="res://Assets/Inimigos/Toaster Bot/death.png" id="2_1l5mc"]
-[ext_resource type="Texture2D" uid="uid://dr8iws1en0blc" path="res://Assets/Inimigos/Toaster Bot/damaged.png" id="3_58ixw"]
-[ext_resource type="Texture2D" uid="uid://cr34h7cua05hg" path="res://Assets/Inimigos/Toaster Bot/idle.png" id="4_02clq"]
-[ext_resource type="Texture2D" uid="uid://44fgj8r2wumt" path="res://Assets/Inimigos/Toaster Bot/run.png" id="5_rqqoo"]
-[ext_resource type="AudioStream" uid="uid://dbdmtmrq378nd" path="res://Sounds/entity_sounds/attack_bixo_chato.wav" id="6_1l5mc"]
+[ext_resource type="Texture2D" uid="uid://hqiv731ym5gd" path="res://Assets/Inimigos/Toaster Bot/attack.png" id="1_kuyu7"]
+[ext_resource type="Texture2D" uid="uid://c61anboegdaf" path="res://Assets/Inimigos/Toaster Bot/death.png" id="2_1l5mc"]
+[ext_resource type="Texture2D" uid="uid://crptprn7taxnx" path="res://Assets/Inimigos/Toaster Bot/damaged.png" id="3_58ixw"]
+[ext_resource type="Texture2D" uid="uid://blmj3e16twvly" path="res://Assets/Inimigos/Toaster Bot/idle.png" id="4_02clq"]
+[ext_resource type="Texture2D" uid="uid://cdyhnujj1oks0" path="res://Assets/Inimigos/Toaster Bot/run.png" id="5_rqqoo"]
+[ext_resource type="AudioStream" uid="uid://c3koabvxks7p" path="res://Sounds/entity_sounds/attack_bixo_chato.wav" id="6_1l5mc"]
 
 [sub_resource type="GDScript" id="GDScript_mvioo"]
 script/source = "extends CharacterBody2D
@@ -16,7 +16,7 @@ signal died
 @export var speed: float = 50
 @export var follow_distance: float = 200.0
 @export var gravity: float = 800.0
-@export var max_health: int = 200.0
+@export var max_health: int = 200
 @export var attack_cooldown := 1.0
 @export var dano = 20
 

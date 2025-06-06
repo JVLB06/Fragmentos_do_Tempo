@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://i244usmc5ayo"]
+[gd_scene load_steps=4 format=3 uid="uid://i244usmc5ayo"]
 
 [ext_resource type="FontFile" uid="uid://d4m6boi2t6jxd" path="res://UI/Scenes/at01.ttf" id="1_xssph"]
 [ext_resource type="Texture2D" uid="uid://8tk8d23615yv" path="res://Assets/UI/sprites/botaoPlay.tres" id="2_crked"]
+[ext_resource type="Texture2D" uid="uid://bucsisoxts5eu" path="res://Assets/UI/sprites/FreeHorrorUi.png" id="2_vtvg4"]
 
 [node name="menu_principal" type="Control"]
 layout_mode = 3
@@ -13,8 +14,16 @@ grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 1401.0
-offset_bottom = 819.0
+offset_left = -10.0
+offset_right = 1362.0
+offset_bottom = 784.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Panel"]
+position = Vector2(678.5, 379.969)
+scale = Vector2(21.2656, 9.84293)
+texture = ExtResource("2_vtvg4")
+region_enabled = true
+region_rect = Rect2(128, 131, 64, 76)
 
 [node name="Título" type="Label" parent="Panel"]
 layout_mode = 0
@@ -28,8 +37,15 @@ text = "FRAGMENTOS DO TEMPO"
 
 [node name="Jogar" type="Button" parent="."]
 layout_mode = 0
-offset_left = 681.0
-offset_top = 509.0
-offset_right = 741.0
-offset_bottom = 532.0
+offset_left = 673.0
+offset_top = 358.0
+offset_right = 733.0
+offset_bottom = 381.0
+icon = ExtResource("2_crked")
+
+[node name="Tutorial" type="Button" parent="."]
+offset_left = 673.0
+offset_top = 424.0
+offset_right = 733.0
+offset_bottom = 447.0
 icon = ExtResource("2_crked")

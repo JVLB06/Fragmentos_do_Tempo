@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://c861fxfxpmgub"]
 
 [ext_resource type="Texture2D" uid="uid://dn4c41dwuj1fy" path="res://Assets/Background/set_1_winter_forest/tileset.png" id="1_yt7wm"]
-[ext_resource type="Texture2D" uid="uid://bgivu5o5qykft" path="res://Assets/Background/set_3_green/1 Tiles/Tileset.png" id="2_pl8jc"]
+[ext_resource type="Texture2D" uid="uid://br0howyqnaoii" path="res://Assets/Background/set_3_green/1 Tiles/Tileset.png" id="2_pl8jc"]
 [ext_resource type="Texture2D" uid="uid://drjri1w1l7l25" path="res://Assets/Background/set_2_industrial/5. Industrial Tileset - Starter Pack 32p/1_Industrial_Tileset_1B.png" id="3_2a3v0"]
 [ext_resource type="Texture2D" uid="uid://buwsqn5vm81r0" path="res://Assets/Background/set_2_industrial/5. Industrial Tileset - Starter Pack 32p/1_Industrial_Tileset_1.png" id="4_hj71y"]
 
@@ -592,7 +592,7 @@ texture = ExtResource("1_yt7wm")
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nhojj"]
 texture = ExtResource("2_pl8jc")
 0:0/0 = 0
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6.56484, -8, -8, 8, 8, 8, 8, -8)
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -8, 8, 8, 8, 8, -8)
 1:0/0 = 0
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -6.56484, -8, 8, 8, 8, 8, -6.38498)
 2:0/0 = 0
@@ -1245,8 +1245,7 @@ texture = ExtResource("4_hj71y")
 11:7/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_6woxn"]
-physics_layer_0/collision_layer = 3
-physics_layer_0/collision_mask = 3
+physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_c8fxp")
 sources/1 = SubResource("TileSetAtlasSource_nhojj")
 sources/2 = SubResource("TileSetAtlasSource_gjmaq")
