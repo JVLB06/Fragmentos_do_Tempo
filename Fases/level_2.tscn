@@ -6,17 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://ci2w3dh7fb4dh" path="res://Entidades/bixo_chato.tscn" id="4_che7g"]
 [ext_resource type="PackedScene" uid="uid://mledpl1cmexx" path="res://Entidades/bot.tscn" id="5_c6qms"]
 [ext_resource type="PackedScene" uid="uid://bmh5ag2oo2l55" path="res://Entidades/drop_life.tscn" id="6_uymi5"]
-[ext_resource type="Texture2D" uid="uid://c8ehw4jx5yk1u" path="res://Assets/Player/yellow_crystal.png" id="7_wbd8t"]
-[ext_resource type="Texture2D" uid="uid://cdj8ms0n2sq2" path="res://Assets/Background/set_3_green/3 Objects/Pointers/3.png" id="8_atn6v"]
-[ext_resource type="Texture2D" uid="uid://c8y1aiyau0qgq" path="res://Assets/Background/set_3_green/3 Objects/Pointers/2.png" id="9_uffti"]
-[ext_resource type="Texture2D" uid="uid://dd25osy16pccs" path="res://Assets/Background/set_3_green/3 Objects/Pointers/8.png" id="10_axyq0"]
-[ext_resource type="Texture2D" uid="uid://ltjawdireafk" path="res://Assets/Background/set_2_industrial/trap_saw.png" id="11_qspos"]
-[ext_resource type="AudioStream" uid="uid://d1krlqryqu8cv" path="res://Sounds/music/fase2_theme_1.mp3" id="12_c6qms"]
+[ext_resource type="Texture2D" uid="uid://bllklshjj1qbu" path="res://Assets/Player/yellow_crystal.png" id="7_wbd8t"]
+[ext_resource type="Texture2D" uid="uid://cnxewwgqfm1u0" path="res://Assets/Background/set_3_green/3 Objects/Pointers/3.png" id="8_atn6v"]
+[ext_resource type="Texture2D" uid="uid://chxqn5w2i0edx" path="res://Assets/Background/set_3_green/3 Objects/Pointers/2.png" id="9_uffti"]
+[ext_resource type="Texture2D" uid="uid://d1xgpyfksghs8" path="res://Assets/Background/set_3_green/3 Objects/Pointers/8.png" id="10_axyq0"]
+[ext_resource type="Texture2D" uid="uid://drqeoykfaduo5" path="res://Assets/Background/set_2_industrial/trap_saw.png" id="11_qspos"]
+[ext_resource type="AudioStream" uid="uid://wsikrf7t8kfs" path="res://Sounds/music/fase2_theme_1.mp3" id="12_c6qms"]
 
 [sub_resource type="GDScript" id="GDScript_che7g"]
 script/source = "extends Node2D
 
-@onready var player_node = $Player.get_node(\"CharacterBody2D\")
+@onready var player_node = $Player
 @onready var musica = $Background_music
 var pause_menu_instance: Node = null  # guarda referência para evitar duplicatas
 
@@ -34,6 +34,7 @@ func _toggle_pause_menu():
 	if pause_menu_instance == null:
 		var pause_scene = load(\"res://UI/Scenes/menu_de_pause.tscn\")
 		pause_menu_instance = pause_scene.instantiate()
+		pause_menu_instance.position = player_node.camera_2d.global_position
 		add_child(pause_menu_instance)
 		get_tree().paused = true
 	else:
@@ -153,7 +154,7 @@ animations = [{
 [node name="Level_2" type="Node2D"]
 script = SubResource("GDScript_che7g")
 
-[node name="Player" parent="." groups=["player"] instance=ExtResource("1_i8xny")]
+[node name="Player" parent="." instance=ExtResource("1_i8xny")]
 position = Vector2(51, 633)
 
 [node name="Background" type="Node2D" parent="."]
