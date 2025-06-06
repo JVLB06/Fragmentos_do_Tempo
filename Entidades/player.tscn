@@ -1,21 +1,21 @@
 [gd_scene load_steps=93 format=3 uid="uid://d3p25wh13vmt3"]
 
 [ext_resource type="PackedScene" uid="uid://csh4vy5eop6be" path="res://Entidades/projetil.tscn" id="1_2qwue"]
-[ext_resource type="Texture2D" uid="uid://cfrgh2d5tfwfi" path="res://Assets/Player/Attack_1.png" id="1_7ftqi"]
-[ext_resource type="Texture2D" uid="uid://bc7wfkd0i1eq" path="res://Assets/Player/Attack_2.png" id="2_m6q7m"]
-[ext_resource type="Texture2D" uid="uid://dyljnhvc2h7f7" path="res://Assets/Player/Hurt.png" id="3_2qwue"]
-[ext_resource type="Texture2D" uid="uid://bmbr582s3x7q2" path="res://Assets/Player/Idle.png" id="4_gpt77"]
-[ext_resource type="Texture2D" uid="uid://c0nn1p4g5qwv3" path="res://Assets/Player/Magic_sphere.png" id="5_13jiw"]
-[ext_resource type="Texture2D" uid="uid://d1ty7g8idjkw" path="res://Assets/Player/Jump.png" id="5_m6q7m"]
-[ext_resource type="Texture2D" uid="uid://d28s44xamv3o1" path="res://Assets/Player/Run.png" id="6_cc42t"]
-[ext_resource type="Texture2D" uid="uid://ch6o1e2e2v6hk" path="res://Assets/Player/Walk.png" id="7_mc76o"]
-[ext_resource type="Texture2D" uid="uid://6wnm6gw4pkcx" path="res://Assets/Player/Dead.png" id="8_gpt77"]
-[ext_resource type="AudioStream" uid="uid://bh7w0cxmv5n8b" path="res://Sounds/entity_sounds/run.mp3" id="11_3i2lo"]
-[ext_resource type="AudioStream" uid="uid://bayk6oj3gv0x2" path="res://Sounds/entity_sounds/attack.wav" id="12_8q2kj"]
-[ext_resource type="AudioStream" uid="uid://dlwpfsaqkhkaf" path="res://Sounds/entity_sounds/long_shoot.wav" id="13_lqdca"]
-[ext_resource type="AudioStream" uid="uid://c5uvhm5gywej7" path="res://Sounds/entity_sounds/jump.wav" id="14_dxmyr"]
-[ext_resource type="AudioStream" uid="uid://dkmx3qvcg3ow" path="res://Sounds/entity_sounds/hit.wav" id="15_e6uji"]
-[ext_resource type="AudioStream" uid="uid://b6u1xdwcy7bdq" path="res://Sounds/entity_sounds/death.wav" id="16_d82mx"]
+[ext_resource type="Texture2D" uid="uid://dp3jhl4o3rn1g" path="res://Assets/Player/Attack_1.png" id="1_7ftqi"]
+[ext_resource type="Texture2D" uid="uid://bk01y4r7ddmoo" path="res://Assets/Player/Attack_2.png" id="2_m6q7m"]
+[ext_resource type="Texture2D" uid="uid://bjjkk3jo4ekyb" path="res://Assets/Player/Hurt.png" id="3_2qwue"]
+[ext_resource type="Texture2D" uid="uid://bbavkxh68xeck" path="res://Assets/Player/Idle.png" id="4_gpt77"]
+[ext_resource type="Texture2D" uid="uid://dys5nnji7l0oc" path="res://Assets/Player/Magic_sphere.png" id="5_13jiw"]
+[ext_resource type="Texture2D" uid="uid://yn45v4jnp147" path="res://Assets/Player/Jump.png" id="5_m6q7m"]
+[ext_resource type="Texture2D" uid="uid://d8gcp120whl0" path="res://Assets/Player/Run.png" id="6_cc42t"]
+[ext_resource type="Texture2D" uid="uid://ccj87k8rdtf28" path="res://Assets/Player/Walk.png" id="7_mc76o"]
+[ext_resource type="Texture2D" uid="uid://dtnck5dwswaiu" path="res://Assets/Player/Dead.png" id="8_gpt77"]
+[ext_resource type="AudioStream" uid="uid://ctecnuit28sth" path="res://Sounds/entity_sounds/run.mp3" id="11_3i2lo"]
+[ext_resource type="AudioStream" uid="uid://bv0nikc0e8bq3" path="res://Sounds/entity_sounds/attack.wav" id="12_8q2kj"]
+[ext_resource type="AudioStream" uid="uid://cbnee70qls85g" path="res://Sounds/entity_sounds/long_shoot.wav" id="13_lqdca"]
+[ext_resource type="AudioStream" uid="uid://c4k2grord1mcv" path="res://Sounds/entity_sounds/jump.wav" id="14_dxmyr"]
+[ext_resource type="AudioStream" uid="uid://u1rdakatn64w" path="res://Sounds/entity_sounds/hit.wav" id="15_e6uji"]
+[ext_resource type="AudioStream" uid="uid://4028rhlgqm0i" path="res://Sounds/entity_sounds/death.wav" id="16_d82mx"]
 
 [sub_resource type="GDScript" id="GDScript_vq1si"]
 script/source = "extends CharacterBody2D
@@ -23,8 +23,8 @@ script/source = "extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
-@export var max_health = 300
-@export var health: int
+@export var max_health = 300.0
+@export var health: float
 @export var damage_attack_1: int = 20
 @export var damage_long_attack: int = 10
 @export var projectile_scene: PackedScene
@@ -37,6 +37,8 @@ var facing_right := true
 var is_hurt := false
 
 @onready var player: AnimatedSprite2D = $AnimatedSprite2D
+@onready var camera_2d: Camera2D = $Camera2D
+@onready var health_bar: ColorRect = $Camera2D/ColorRect
 @onready var ataque_area_1 = $Ataque1
 @onready var ataque_area_2 = $Ataque2
 @onready var spawn_point = $SpawnPoint
@@ -168,6 +170,7 @@ func apply_damage(amount: int):
 	# Empurrão
 	var knockback = Vector2(-400, -100) if facing_right else Vector2(400, -100)
 	velocity = knockback
+	health_bar.scale.x = health/max_health
 	emit_signal(\"health_changed\", max_health, health)
 	player.play(\"hurt\")
 	hit_sound.play()
@@ -757,65 +760,72 @@ script/source = "extends Area2D
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m6q7m"]
-size = Vector2(68.1563, 29)
+size = Vector2(100, 29)
 
-[node name="Player" type="Node2D"]
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." groups=["player"]]
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
 collision_layer = 7
 collision_mask = 7
 script = SubResource("GDScript_vq1si")
 projectile_scene = ExtResource("1_2qwue")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 light_mask = 8
 visibility_layer = 8
 position = Vector2(-12, 30)
 shape = SubResource("CapsuleShape2D_c07pf")
 debug_color = Color(0.907454, 0.291393, 0.202092, 0.42)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, -1)
 sprite_frames = SubResource("SpriteFrames_vamaj")
-animation = &"run"
+animation = &"attack_1"
 autoplay = "idle"
+frame = 6
+frame_progress = 0.94676
 
-[node name="Ataque1" type="Area2D" parent="CharacterBody2D"]
+[node name="Ataque1" type="Area2D" parent="."]
 position = Vector2(-8, 12)
 script = SubResource("GDScript_gpt77")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Ataque1"]
-position = Vector2(0, 22)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ataque1"]
+position = Vector2(-5, 22)
 shape = SubResource("RectangleShape2D_m6q7m")
 debug_color = Color(0.0795917, 0.626054, 0.492898, 0.42)
 
-[node name="SpawnPoint" type="Node2D" parent="CharacterBody2D"]
+[node name="SpawnPoint" type="Node2D" parent="."]
 position = Vector2(16, 36)
 
-[node name="InvulnTimer" type="Timer" parent="CharacterBody2D"]
+[node name="InvulnTimer" type="Timer" parent="."]
 
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+[node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -128)
 limit_top = -1400
 limit_bottom = 1400
 limit_smoothed = true
 
-[node name="walk" type="AudioStreamPlayer2D" parent="CharacterBody2D"]
+[node name="ColorRect" type="ColorRect" parent="Camera2D"]
+offset_left = -617.0
+offset_top = -344.0
+offset_right = -98.0
+offset_bottom = -316.0
+color = Color(0.68, 0.15266, 0.00679999, 1)
+
+[node name="walk" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_3i2lo")
 
-[node name="attack" type="AudioStreamPlayer2D" parent="CharacterBody2D"]
+[node name="attack" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("12_8q2kj")
 
-[node name="long_attack" type="AudioStreamPlayer2D" parent="CharacterBody2D"]
+[node name="long_attack" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("13_lqdca")
 
-[node name="jump" type="AudioStreamPlayer2D" parent="CharacterBody2D"]
+[node name="jump" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("14_dxmyr")
 
-[node name="hit" type="AudioStreamPlayer2D" parent="CharacterBody2D"]
+[node name="hit" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("15_e6uji")
 
-[node name="death" type="AudioStreamPlayer2D" parent="CharacterBody2D"]
+[node name="death" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("16_d82mx")
 
-[connection signal="animation_finished" from="CharacterBody2D/AnimatedSprite2D" to="CharacterBody2D" method="_on_animation_finished"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
