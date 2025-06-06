@@ -1,11 +1,11 @@
 [gd_scene load_steps=25 format=3 uid="uid://bkaapwpltfjk6"]
 
-[ext_resource type="Texture2D" uid="uid://bjhtrbo8i2wu3" path="res://Assets/Inimigos/dead_snake/head.png" id="1_h52o0"]
-[ext_resource type="AudioStream" uid="uid://ck4xxxnegsqnr" path="res://Sounds/entity_sounds/boss_shoot.wav" id="2_e80ia"]
-[ext_resource type="AudioStream" uid="uid://b8pa2demmnrhn" path="res://Sounds/entity_sounds/boss_preset.wav" id="3_cji4w"]
-[ext_resource type="AudioStream" uid="uid://b41ceyeckfgus" path="res://Sounds/entity_sounds/boss_death.wav" id="4_rq2vh"]
-[ext_resource type="AudioStream" uid="uid://kvqaw2rh7cij" path="res://Sounds/entity_sounds/boss_random.wav" id="5_02e3c"]
-[ext_resource type="AudioStream" uid="uid://w3m6dfxhh2dt" path="res://Sounds/entity_sounds/boss_random1.wav" id="6_rltix"]
+[ext_resource type="Texture2D" uid="uid://defyqu3mb4jid" path="res://Assets/Inimigos/dead_snake/head.png" id="1_h52o0"]
+[ext_resource type="AudioStream" uid="uid://cmo3hx6b02t3y" path="res://Sounds/entity_sounds/boss_shoot.wav" id="2_e80ia"]
+[ext_resource type="AudioStream" uid="uid://d3saivh828dsp" path="res://Sounds/entity_sounds/boss_preset.wav" id="3_cji4w"]
+[ext_resource type="AudioStream" uid="uid://yt1uprratwmk" path="res://Sounds/entity_sounds/boss_death.wav" id="4_rq2vh"]
+[ext_resource type="AudioStream" uid="uid://c3p2bygrjsxrj" path="res://Sounds/entity_sounds/boss_random.wav" id="5_02e3c"]
+[ext_resource type="AudioStream" uid="uid://c8bout1xmf43t" path="res://Sounds/entity_sounds/boss_random1.wav" id="6_rltix"]
 
 [sub_resource type="GDScript" id="GDScript_a2tef"]
 script/source = "extends CharacterBody2D
@@ -56,8 +56,6 @@ func spawn_vertebras():
 		add_child(v)
 		vertebras.append(v)
 func _physics_process(delta):
-	if not player:
-		return
 	# Atualiza o histórico de posição
 	position_history.append(global_position)
 	if position_history.size() > max_history_length:
@@ -276,7 +274,7 @@ radius = 19.0263
 
 [node name="Node2D" type="Node2D" groups=["boss"]]
 
-[node name="Head" type="CharacterBody2D" parent="."]
+[node name="Head" type="CharacterBody2D" parent="." groups=["boss"]]
 light_mask = 16
 visibility_layer = 16
 position = Vector2(39, 29)
