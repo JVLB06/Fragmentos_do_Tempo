@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://i244usmc5ayo"]
+[gd_scene load_steps=5 format=3 uid="uid://i244usmc5ayo"]
 
 [ext_resource type="FontFile" uid="uid://d4m6boi2t6jxd" path="res://UI/Scenes/at01.ttf" id="1_xssph"]
 [ext_resource type="Texture2D" uid="uid://8tk8d23615yv" path="res://Assets/UI/sprites/botaoPlay.tres" id="2_crked"]
 [ext_resource type="Texture2D" uid="uid://bucsisoxts5eu" path="res://Assets/UI/sprites/FreeHorrorUi.png" id="2_vtvg4"]
+[ext_resource type="Script" uid="uid://cp6imiskm23og" path="res://UI/Scripts/jogar.gd" id="4_64efa"]
 
 [node name="menu_principal" type="Control"]
 layout_mode = 3
@@ -42,10 +43,15 @@ offset_top = 358.0
 offset_right = 733.0
 offset_bottom = 381.0
 icon = ExtResource("2_crked")
+expand_icon = true
+script = ExtResource("4_64efa")
 
 [node name="Tutorial" type="Button" parent="."]
+layout_mode = 0
 offset_left = 673.0
 offset_top = 424.0
 offset_right = 733.0
 offset_bottom = 447.0
 icon = ExtResource("2_crked")
+
+[connection signal="pressed" from="Jogar" to="Jogar" method="_on_pressed"]
