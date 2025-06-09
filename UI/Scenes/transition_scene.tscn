@@ -1,0 +1,94 @@
+[gd_scene load_steps=5 format=3 uid="uid://d11r21bwbrr1e"]
+
+[ext_resource type="Shader" uid="uid://dovujiags3v2m" path="res://Shaders/level.gdshader" id="1_ospri"]
+[ext_resource type="Texture2D" uid="uid://8tk8d23615yv" path="res://Assets/UI/sprites/botaoPlay.tres" id="2_jgui3"]
+
+[sub_resource type="GDScript" id="GDScript_jgui3"]
+script/source = "extends CanvasLayer
+
+@onready var color_rect = $ColorRect
+@onready var button = $CenterContainer/VBoxContainer/ContinueButton
+@onready var container = $CenterContainer
+@onready var shadow_overlay = $ShadowOverlay
+
+signal transition_finished
+
+# Armazena a próxima cena para trocar só depois do clique
+var scene_to_load: String = \"\"
+
+func _ready():
+	button.pressed.connect(_on_continue_pressed)
+	container.visible = false  # Oculta botão inicialmente
+	await get_tree().create_timer(0.5).timeout  # Delay opcional
+	container.visible = true   # Mostra botão após pequeno tempo
+
+# Chamado externamente para iniciar a cutscene
+func wait_then_change(path_to_scene: String):
+	scene_to_load = path_to_scene
+
+func _on_continue_pressed():
+	button.disabled = true
+
+	# (opcional) fade out do shadow enquanto fade do shader acontece
+	var tween = create_tween()
+	tween.tween_property(
+		shadow_overlay, \"modulate:a\", 0.0, 0.4
+	)
+	tween.parallel().tween_property(
+		color_rect.material, 
+		\"shader_parameter/threshold\", 
+		1.0, 0.5
+	)
+	await tween.finished
+
+	var result = get_tree().change_scene_to_file(scene_to_load)
+	assert(result == OK)
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g6pnj"]
+shader = ExtResource("1_ospri")
+shader_parameter/lines = 10.0
+shader_parameter/threshold = 0.0
+shader_parameter/line_color_a = Color(1, 1, 1, 1)
+shader_parameter/line_color_b = Color(0, 0, 0, 1)
+
+[node name="Node2D" type="CanvasLayer"]
+script = SubResource("GDScript_jgui3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_g6pnj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ShadowOverlay" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 15.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = -1
+anchor_top = 0.007
+anchor_right = 0.995
+anchor_bottom = 0.989
+offset_top = -2.04
+offset_right = -0.600098
+offset_bottom = -0.0800171
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="ContinueButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+icon = ExtResource("2_jgui3")

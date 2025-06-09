@@ -1,10 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://i244usmc5ayo"]
+[gd_scene load_steps=8 format=3 uid="uid://i244usmc5ayo"]
 
+[ext_resource type="PackedScene" uid="uid://by10klyq024bk" path="res://Backgrounds/space_1_background.tscn" id="1_w2tqb"]
 [ext_resource type="FontFile" uid="uid://d4m6boi2t6jxd" path="res://UI/Scenes/at01.ttf" id="1_xssph"]
 [ext_resource type="Texture2D" uid="uid://8tk8d23615yv" path="res://Assets/UI/sprites/botaoPlay.tres" id="2_crked"]
 [ext_resource type="Texture2D" uid="uid://bucsisoxts5eu" path="res://Assets/UI/sprites/FreeHorrorUi.png" id="2_vtvg4"]
-[ext_resource type="Script" uid="uid://d1hvvmh3dxtho" path="res://UI/Scripts/jogar.gd" id="4_64efa"]
+[ext_resource type="Script" uid="uid://cp6imiskm23og" path="res://UI/Scripts/jogar.gd" id="4_64efa"]
 [ext_resource type="AudioStream" uid="uid://dth0s1082usyj" path="res://Sounds/music/menu_techno_looping.mp3" id="5_027wi"]
+
+[sub_resource type="GDScript" id="GDScript_w2oa8"]
+script/source = "extends ParallaxBackground
+
+@export var scroll_speed := 50.0  # velocidade do movimento automático
+
+func _process(delta: float) -> void:
+	scroll_offset.x += scroll_speed * delta
+"
 
 [node name="menu_principal" type="Control"]
 layout_mode = 3
@@ -14,6 +24,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="ParallaxBackground" parent="." instance=ExtResource("1_w2tqb")]
+script = SubResource("GDScript_w2oa8")
+
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -22,10 +35,12 @@ anchor_bottom = 1.0
 offset_left = -10.0
 offset_right = 82.0
 offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Panel"]
-position = Vector2(654.5, 368)
-scale = Vector2(22.0156, 10.8947)
+position = Vector2(636, 325)
+scale = Vector2(12.6211, 5.53618)
 texture = ExtResource("2_vtvg4")
 region_enabled = true
 region_rect = Rect2(128, 131, 64, 76)
@@ -35,10 +50,10 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.939
 anchor_bottom = 0.916
-offset_left = 505.0
-offset_top = 9.0
-offset_right = -515.308
-offset_bottom = -679.144
+offset_left = 498.0
+offset_top = 122.0
+offset_right = -522.308
+offset_bottom = -566.144
 theme_override_fonts/font = ExtResource("1_xssph")
 theme_override_font_sizes/font_size = 37
 text = "FRAGMENTOS DO TEMPO"
@@ -48,10 +63,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 571.0
-offset_top = 183.0
-offset_right = -584.0
-offset_bottom = -493.0
+offset_left = 565.0
+offset_top = 210.0
+offset_right = -590.0
+offset_bottom = -466.0
 grow_horizontal = 2
 grow_vertical = 2
 icon = ExtResource("2_crked")
@@ -63,10 +78,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 569.0
-offset_top = 283.0
-offset_right = -586.0
-offset_bottom = -393.0
+offset_left = 565.0
+offset_top = 290.0
+offset_right = -590.0
+offset_bottom = -386.0
 grow_horizontal = 2
 grow_vertical = 2
 icon = ExtResource("2_crked")
@@ -77,10 +92,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 569.0
-offset_top = 393.0
-offset_right = -586.0
-offset_bottom = -283.0
+offset_left = 565.0
+offset_top = 370.0
+offset_right = -590.0
+offset_bottom = -306.0
 grow_horizontal = 2
 grow_vertical = 2
 icon = ExtResource("2_crked")
@@ -95,3 +110,5 @@ parameters/looping = true
 [connection signal="pressed" from="Jogar" to="Jogar" method="_on_pressed"]
 [connection signal="pressed" from="Tutorial" to="Tutorial" method="_on_pressed"]
 [connection signal="pressed" from="Créditos" to="Créditos" method="_on_pressed"]
+
+[editable path="ParallaxBackground"]
