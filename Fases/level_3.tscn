@@ -3,27 +3,27 @@
 [ext_resource type="PackedScene" uid="uid://dwbrbqytmc52c" path="res://Backgrounds/space_2_background.tscn" id="1_r5oue"]
 [ext_resource type="PackedScene" uid="uid://c861fxfxpmgub" path="res://Backgrounds/tileset_background.tscn" id="2_5lpum"]
 [ext_resource type="PackedScene" uid="uid://d3p25wh13vmt3" path="res://Entidades/player.tscn" id="3_mqvrl"]
-[ext_resource type="Texture2D" uid="uid://c7u4y0le7npq6" path="res://Assets/Background/set_3_green/3 Objects/Ridges/4.png" id="4_5lpum"]
-[ext_resource type="Texture2D" uid="uid://n2o3lx5k8a1c" path="res://Assets/Player/white_crystal.png" id="4_m2tc8"]
-[ext_resource type="AudioStream" uid="uid://cwh3pavxu6bkb" path="res://Sounds/music/fase3_theme.mp3" id="5_mqvrl"]
+[ext_resource type="Texture2D" uid="uid://kla1744moag0" path="res://Assets/Background/set_3_green/3 Objects/Ridges/4.png" id="4_5lpum"]
+[ext_resource type="Texture2D" uid="uid://c2xckj12klc5r" path="res://Assets/Player/white_crystal.png" id="4_m2tc8"]
+[ext_resource type="AudioStream" uid="uid://dmq6osy2rsv1g" path="res://Sounds/music/fase3_theme.mp3" id="5_mqvrl"]
 [ext_resource type="PackedScene" uid="uid://bmh5ag2oo2l55" path="res://Entidades/drop_life.tscn" id="5_ylsfp"]
-[ext_resource type="Texture2D" uid="uid://dx0j01tm6efdl" path="res://Assets/Background/set_3_green/3 Objects/Stones/2.png" id="6_2psv8"]
-[ext_resource type="Texture2D" uid="uid://cs6gdtqo7gyvw" path="res://Assets/Background/set_3_green/3 Objects/Trees/2.png" id="7_6mnwx"]
-[ext_resource type="Texture2D" uid="uid://0syf8g7wepdo" path="res://Assets/Background/set_3_green/3 Objects/Trees/3.png" id="8_xoljh"]
-[ext_resource type="Texture2D" uid="uid://bix50wwc2168e" path="res://Assets/Background/set_3_green/3 Objects/Ridges/5.png" id="9_b4vp7"]
-[ext_resource type="Texture2D" uid="uid://djfmrcxikv2pe" path="res://Assets/Background/set_3_green/3 Objects/Trees/1.png" id="10_hl8nh"]
-[ext_resource type="Texture2D" uid="uid://bmn4ff0ulnuwy" path="res://Assets/Background/set_3_green/3 Objects/Pointers/5.png" id="11_efog6"]
-[ext_resource type="Texture2D" uid="uid://d1xgpyfksghs8" path="res://Assets/Background/set_3_green/3 Objects/Pointers/8.png" id="12_qfy0p"]
-[ext_resource type="Texture2D" uid="uid://c7lx87hooky47" path="res://Assets/Background/set_3_green/3 Objects/Pointers/1.png" id="13_xvdud"]
-[ext_resource type="Texture2D" uid="uid://cnxewwgqfm1u0" path="res://Assets/Background/set_3_green/3 Objects/Pointers/3.png" id="14_sqnof"]
-[ext_resource type="Texture2D" uid="uid://dglwjeuydgeg7" path="res://Assets/Background/set_3_green/3 Objects/Stones/5.png" id="15_rv3fp"]
-[ext_resource type="Texture2D" uid="uid://kftim37t5k51" path="res://Assets/Background/set_3_green/3 Objects/Ridges/6.png" id="16_vjqoe"]
-[ext_resource type="Texture2D" uid="uid://cte0e1ss3bhnk" path="res://Assets/Background/set_3_green/3 Objects/Ridges/3.png" id="17_5f7h4"]
-[ext_resource type="Texture2D" uid="uid://rsadfythkkb0" path="res://Assets/Background/set_3_green/3 Objects/Bushes/4.png" id="18_dendi"]
-[ext_resource type="Texture2D" uid="uid://klt1cg7dt7bj" path="res://Assets/Background/set_3_green/3 Objects/Bushes/9.png" id="19_8spnm"]
-[ext_resource type="Texture2D" uid="uid://duoqo1legbp7y" path="res://Assets/Background/set_3_green/3 Objects/Bushes/7.png" id="20_cnsbc"]
-[ext_resource type="Texture2D" uid="uid://dd32ddd7h4i61" path="res://Assets/Background/set_3_green/3 Objects/Stones/1.png" id="21_0gu7y"]
-[ext_resource type="Texture2D" uid="uid://cgtbqj5qqvajq" path="res://Assets/Background/set_3_green/Objetos_globais/Flag.png" id="22_n1t1f"]
+[ext_resource type="Texture2D" uid="uid://cfxcqdlhd1aip" path="res://Assets/Background/set_3_green/3 Objects/Stones/2.png" id="6_2psv8"]
+[ext_resource type="Texture2D" uid="uid://c8q3t5ubi5y7x" path="res://Assets/Background/set_3_green/3 Objects/Trees/2.png" id="7_6mnwx"]
+[ext_resource type="Texture2D" uid="uid://bb0r0n7ane3f1" path="res://Assets/Background/set_3_green/3 Objects/Trees/3.png" id="8_xoljh"]
+[ext_resource type="Texture2D" uid="uid://bggi0fi4q1dy7" path="res://Assets/Background/set_3_green/3 Objects/Ridges/5.png" id="9_b4vp7"]
+[ext_resource type="Texture2D" uid="uid://cy6vjcsc6jd6u" path="res://Assets/Background/set_3_green/3 Objects/Trees/1.png" id="10_hl8nh"]
+[ext_resource type="Texture2D" uid="uid://c77a7neppudeq" path="res://Assets/Background/set_3_green/3 Objects/Pointers/5.png" id="11_efog6"]
+[ext_resource type="Texture2D" uid="uid://c1s4oyp2csow3" path="res://Assets/Background/set_3_green/3 Objects/Pointers/8.png" id="12_qfy0p"]
+[ext_resource type="Texture2D" uid="uid://b3fx0h6so65it" path="res://Assets/Background/set_3_green/3 Objects/Pointers/1.png" id="13_xvdud"]
+[ext_resource type="Texture2D" uid="uid://dpl5nxdnr3qqp" path="res://Assets/Background/set_3_green/3 Objects/Pointers/3.png" id="14_sqnof"]
+[ext_resource type="Texture2D" uid="uid://ctaclmprt17l6" path="res://Assets/Background/set_3_green/3 Objects/Stones/5.png" id="15_rv3fp"]
+[ext_resource type="Texture2D" uid="uid://dufurujkm5j34" path="res://Assets/Background/set_3_green/3 Objects/Ridges/6.png" id="16_vjqoe"]
+[ext_resource type="Texture2D" uid="uid://j574fqqqrvha" path="res://Assets/Background/set_3_green/3 Objects/Ridges/3.png" id="17_5f7h4"]
+[ext_resource type="Texture2D" uid="uid://cwhdnhexyjmt6" path="res://Assets/Background/set_3_green/3 Objects/Bushes/4.png" id="18_dendi"]
+[ext_resource type="Texture2D" uid="uid://bp88i1j8xydbg" path="res://Assets/Background/set_3_green/3 Objects/Bushes/9.png" id="19_8spnm"]
+[ext_resource type="Texture2D" uid="uid://cndsx4fayd0jv" path="res://Assets/Background/set_3_green/3 Objects/Bushes/7.png" id="20_cnsbc"]
+[ext_resource type="Texture2D" uid="uid://herqf0pc3wmv" path="res://Assets/Background/set_3_green/3 Objects/Stones/1.png" id="21_0gu7y"]
+[ext_resource type="Texture2D" uid="uid://5e1lsvwj0jw5" path="res://Assets/Background/set_3_green/Objetos_globais/Flag.png" id="22_n1t1f"]
 
 [sub_resource type="GDScript" id="GDScript_mqvrl"]
 script/source = "extends Node2D
@@ -91,10 +91,12 @@ script/source = "extends Node2D
 @onready var area_cura = $Cristal_do_tempo
 
 func _ready():
-	area_cura.body_entered.connect(_on_area_cura_entered)
-
-func _on_area_cura_entered(body):
-	get_tree().change_scene_to_file(proxima_fase)
+	trocar_de_fase()
+	
+func trocar_de_fase():
+	var cutscene = preload(\"res://UI/Scenes/transition_scene.tscn\").instantiate()
+	add_child(cutscene)
+	cutscene.wait_then_change(\"res://UI/menu_principal.tscn\")  # Caminho da próxima fase
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b7oyo"]
