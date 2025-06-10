@@ -6,12 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://ci2w3dh7fb4dh" path="res://Entidades/bixo_chato.tscn" id="4_che7g"]
 [ext_resource type="PackedScene" uid="uid://mledpl1cmexx" path="res://Entidades/bot.tscn" id="5_c6qms"]
 [ext_resource type="PackedScene" uid="uid://bmh5ag2oo2l55" path="res://Entidades/drop_life.tscn" id="6_uymi5"]
-[ext_resource type="Texture2D" uid="uid://bllklshjj1qbu" path="res://Assets/Player/yellow_crystal.png" id="7_wbd8t"]
-[ext_resource type="Texture2D" uid="uid://cnxewwgqfm1u0" path="res://Assets/Background/set_3_green/3 Objects/Pointers/3.png" id="8_atn6v"]
-[ext_resource type="Texture2D" uid="uid://chxqn5w2i0edx" path="res://Assets/Background/set_3_green/3 Objects/Pointers/2.png" id="9_uffti"]
-[ext_resource type="Texture2D" uid="uid://d1xgpyfksghs8" path="res://Assets/Background/set_3_green/3 Objects/Pointers/8.png" id="10_axyq0"]
-[ext_resource type="Texture2D" uid="uid://drqeoykfaduo5" path="res://Assets/Background/set_2_industrial/trap_saw.png" id="11_qspos"]
-[ext_resource type="AudioStream" uid="uid://wsikrf7t8kfs" path="res://Sounds/music/fase2_theme_1.mp3" id="12_c6qms"]
+[ext_resource type="Texture2D" uid="uid://dm0mcce2r5m7y" path="res://Assets/Player/yellow_crystal.png" id="7_wbd8t"]
+[ext_resource type="Texture2D" uid="uid://dpl5nxdnr3qqp" path="res://Assets/Background/set_3_green/3 Objects/Pointers/3.png" id="8_atn6v"]
+[ext_resource type="Texture2D" uid="uid://c66c0uesw4bog" path="res://Assets/Background/set_3_green/3 Objects/Pointers/2.png" id="9_uffti"]
+[ext_resource type="Texture2D" uid="uid://c1s4oyp2csow3" path="res://Assets/Background/set_3_green/3 Objects/Pointers/8.png" id="10_axyq0"]
+[ext_resource type="Texture2D" uid="uid://doigu3hs4eubf" path="res://Assets/Background/set_2_industrial/trap_saw.png" id="11_qspos"]
+[ext_resource type="AudioStream" uid="uid://dp4dgsymvembb" path="res://Sounds/music/fase2_theme_1.mp3" id="12_c6qms"]
 
 [sub_resource type="GDScript" id="GDScript_che7g"]
 script/source = "extends Node2D
@@ -49,15 +49,15 @@ func _on_player_died():
 [sub_resource type="GDScript" id="GDScript_mcitl"]
 script/source = "extends Node2D
 
-@export var proxima_fase: String = \"res://Fases/level_3.tscn\"  # Caminho para a próxima fase
-
 @onready var area_cura = $Cristal_do_tempo
 
 func _ready():
-	area_cura.body_entered.connect(_on_area_cura_entered)
-
-func _on_area_cura_entered(body):
-	get_tree().change_scene_to_file(proxima_fase)
+	trocar_de_fase()
+	
+func trocar_de_fase():
+	var cutscene = preload(\"res://UI/Scenes/transition_scene.tscn\").instantiate()
+	add_child(cutscene)
+	cutscene.wait_then_change(\"res://Fases/level_3.tscn\")  # Caminho da próxima fase
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m8q40"]
