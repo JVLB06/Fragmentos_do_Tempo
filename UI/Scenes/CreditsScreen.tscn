@@ -1,20 +1,80 @@
-[gd_scene format=3]
+[gd_scene load_steps=4 format=3 uid="uid://bpq7wypy7accf"]
 
-[ext_resource path="res://CreditsScreen.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://b8cpo4cwtjcet" path="res://UI/Scripts/CreditsScreen.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://d4m6boi2t6jxd" path="res://UI/Scenes/at01.ttf" id="2_1shww"]
+[ext_resource type="AudioStream" uid="uid://bn5k1vb340y4v" path="res://Sounds/music/fase2_theme.mp3" id="3_ucbu0"]
 
 [node name="CreditsScreen" type="Control"]
-script = ExtResource( 1 )
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource("1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 3.014
+offset_right = -8.0
+offset_bottom = 11.9199
+color = Color(0, 0, 0, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 381.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="ScrollContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_minimum_size = Vector2( 0, 3000 )
+custom_minimum_size = Vector2(1280, 3000)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_1shww")
+theme_override_fonts/mono_font = ExtResource("2_1shww")
+theme_override_fonts/italics_font = ExtResource("2_1shww")
+theme_override_fonts/bold_italics_font = ExtResource("2_1shww")
+theme_override_fonts/bold_font = ExtResource("2_1shww")
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+theme_override_font_sizes/mono_font_size = 30
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
 bbcode_enabled = true
-text = "[center]\nObrigado por jogar!\n\nDesenvolvido por:\nMarlon Pavarim\n\nTrilha sonora:\nFulano da Silva\n\nAgradecimentos:\nMinha família, meus amigos, e você que jogou!\n\n\nFIM[/center]"
+text = "
+
+
+
+
+[center]
+Fragmentos do Tempo
+
+
+
+
+                                  
+
+
+
+
+Obrigado por jogar!
+
+Desenvolvido por:
+
+Gabriel Zaioncz dos Santos - 172416227
+Joao Victor Lellis Butzen - 172410826
+Joao Victor Ribas - 172213549
+Marlon Gabriel Pavarim Crefta - 172212829 
+
+Agradecimentos:
+Minha familia, meus amigos, e voce que jogou!
+
+
+FIM[/center]"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ucbu0")
+autoplay = true
