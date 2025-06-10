@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bddlfpflr18y4"
-path="res://.godot/imported/6.png-3fff175eaba1f3bdb918121030251915.ctex"
+path="res://.godot/imported/6.png-55c8b1f3e849cefdd02c17bb47a1310d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Background/set_2_industrial_see/6. Character Animations 32p/Anim_Robot_Walk1_v1.1_frames/6.png"
-dest_files=["res://.godot/imported/6.png-3fff175eaba1f3bdb918121030251915.ctex"]
+source_file="res://Assets/Background/set_2_industrial/6. Character Animations 32p/Anim_Robot_Walk1_v1.1_frames/6.png"
+dest_files=["res://.godot/imported/6.png-55c8b1f3e849cefdd02c17bb47a1310d.ctex"]
 
 [params]
 

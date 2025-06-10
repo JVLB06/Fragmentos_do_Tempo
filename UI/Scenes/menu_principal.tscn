@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://i244usmc5ayo"]
+[gd_scene load_steps=5 format=3 uid="uid://i244usmc5ayo"]
 
 [ext_resource type="PackedScene" uid="uid://by10klyq024bk" path="res://Backgrounds/space_1_background.tscn" id="1_w2tqb"]
 [ext_resource type="FontFile" uid="uid://d4m6boi2t6jxd" path="res://UI/Scenes/at01.ttf" id="1_xssph"]
