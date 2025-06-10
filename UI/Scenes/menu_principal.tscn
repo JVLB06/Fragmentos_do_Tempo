@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://by10klyq024bk" path="res://Backgrounds/space_1_background.tscn" id="1_w2tqb"]
 [ext_resource type="FontFile" uid="uid://d4m6boi2t6jxd" path="res://UI/Scenes/at01.ttf" id="1_xssph"]
-[ext_resource type="Texture2D" uid="uid://8tk8d23615yv" path="res://Assets/UI/sprites/botaoPlay.tres" id="2_crked"]
 [ext_resource type="Texture2D" uid="uid://bucsisoxts5eu" path="res://Assets/UI/sprites/FreeHorrorUi.png" id="2_vtvg4"]
 [ext_resource type="Script" uid="uid://cp6imiskm23og" path="res://UI/Scripts/jogar.gd" id="4_64efa"]
 [ext_resource type="AudioStream" uid="uid://dth0s1082usyj" path="res://Sounds/music/menu_techno_looping.mp3" id="5_027wi"]
+[ext_resource type="Texture2D" uid="uid://biaydjhjydkld" path="res://Assets/UI/sprites/general_button.png" id="5_w2tqb"]
 
 [sub_resource type="GDScript" id="GDScript_w2oa8"]
 script/source = "extends ParallaxBackground
@@ -63,43 +63,133 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 565.0
-offset_top = 210.0
-offset_right = -590.0
-offset_bottom = -466.0
+offset_left = 566.0
+offset_top = 188.0
+offset_right = -586.0
+offset_bottom = -488.0
 grow_horizontal = 2
 grow_vertical = 2
-icon = ExtResource("2_crked")
 expand_icon = true
 script = ExtResource("4_64efa")
+
+[node name="TextureRect" type="TextureRect" parent="Jogar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.0
+offset_top = -25.0
+offset_right = 14.0
+offset_bottom = 22.0
+texture = ExtResource("5_w2tqb")
+
+[node name="Label" type="Label" parent="Jogar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.5
+offset_top = -12.0
+offset_right = 21.5
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_xssph")
+theme_override_font_sizes/font_size = 30
+text = "Play"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
 
 [node name="Tutorial" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 565.0
-offset_top = 290.0
-offset_right = -590.0
-offset_bottom = -386.0
+offset_left = 566.0
+offset_top = 294.0
+offset_right = -585.0
+offset_bottom = -383.0
 grow_horizontal = 2
 grow_vertical = 2
-icon = ExtResource("2_crked")
 expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="Tutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.0
+offset_top = -25.0
+offset_right = 14.0
+offset_bottom = 22.0
+texture = ExtResource("5_w2tqb")
+
+[node name="Label" type="Label" parent="Tutorial"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.5
+offset_top = -12.0
+offset_right = 21.5
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_xssph")
+theme_override_font_sizes/font_size = 30
+text = "tutorial"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
 
 [node name="Créditos" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 565.0
-offset_top = 370.0
-offset_right = -590.0
-offset_bottom = -306.0
+offset_left = 566.0
+offset_top = 417.0
+offset_right = -589.0
+offset_bottom = -260.0
 grow_horizontal = 2
 grow_vertical = 2
-icon = ExtResource("2_crked")
 expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="Créditos"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.0
+offset_top = -25.0
+offset_right = 14.0
+offset_bottom = 22.0
+texture = ExtResource("5_w2tqb")
+
+[node name="Label" type="Label" parent="Créditos"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.5
+offset_top = -12.0
+offset_right = 21.5
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_xssph")
+theme_override_font_sizes/font_size = 30
+text = "creditos"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_027wi")
