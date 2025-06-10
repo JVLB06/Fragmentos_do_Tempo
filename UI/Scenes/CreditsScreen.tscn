@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource path="res://CreditsScreen.gd" type="Script" id=1]
+
+[node name="CreditsScreen" type="Control"]
+script = ExtResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ScrollContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_minimum_size = Vector2( 0, 3000 )
+bbcode_enabled = true
+text = "[center]\nObrigado por jogar!\n\nDesenvolvido por:\nMarlon Pavarim\n\nTrilha sonora:\nFulano da Silva\n\nAgradecimentos:\nMinha família, meus amigos, e você que jogou!\n\n\nFIM[/center]"
