@@ -86,17 +86,25 @@ func _on_boss_morreu():
 [sub_resource type="GDScript" id="GDScript_wc1vp"]
 script/source = "extends Node2D
 
-@export var proxima_fase: String = \"res://UI/Scenes/menu_principal.tscn\"  # Caminho para a próxima fase
-
 @onready var area_cura = $Cristal_do_tempo
+var is_transitioning = false
 
 func _ready():
-	trocar_de_fase()
+	area_cura.body_entered.connect(_on_area_cura_entered)
 	
+func _on_area_cura_entered(body):
+	if body.is_in_group(\"player\") and not is_transitioning:
+		is_transitioning = true
+		trocar_de_fase()
+
 func trocar_de_fase():
 	var cutscene = preload(\"res://UI/Scenes/transition_scene.tscn\").instantiate()
-	add_child(cutscene)
-	cutscene.wait_then_change(\"res://UI/menu_principal.tscn\")  # Caminho da próxima fase
+
+	# Adiciona no root, não localmente
+	get_tree().get_root().add_child(cutscene)
+
+	# Inicia troca
+	cutscene.wait_then_change(\"res://UI/Scenes/menu_principal.tscn\")
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b7oyo"]
