@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://i244usmc5ayo"]
+[gd_scene load_steps=10 format=3 uid="uid://i244usmc5ayo"]
 
 [ext_resource type="PackedScene" uid="uid://by10klyq024bk" path="res://Backgrounds/space_1_background.tscn" id="1_w2tqb"]
 [ext_resource type="FontFile" uid="uid://d4m6boi2t6jxd" path="res://UI/Scenes/at01.ttf" id="1_xssph"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cp6imiskm23og" path="res://UI/Scripts/jogar.gd" id="4_64efa"]
 [ext_resource type="AudioStream" uid="uid://cbgybo3k275mf" path="res://Sounds/music/menu_techno_looping.mp3" id="5_027wi"]
 [ext_resource type="Texture2D" uid="uid://dj1xlj5a5daed" path="res://Assets/UI/sprites/general_button.png" id="5_w2tqb"]
+[ext_resource type="Script" uid="uid://cjv52mdq0r4ro" path="res://UI/Scripts/tutorial.gd" id="6_pwryx"]
 [ext_resource type="Script" uid="uid://dpfeb6dyl8813" path="res://UI/Scripts/créditos.gd" id="6_w2oa8"]
 
 [sub_resource type="GDScript" id="GDScript_w2oa8"]
@@ -118,6 +119,7 @@ offset_bottom = -383.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_icon = true
+script = ExtResource("6_pwryx")
 
 [node name="TextureRect" type="TextureRect" parent="Tutorial"]
 layout_mode = 1
