@@ -1,21 +1,21 @@
 [gd_scene load_steps=93 format=3 uid="uid://d3p25wh13vmt3"]
 
 [ext_resource type="PackedScene" uid="uid://csh4vy5eop6be" path="res://Entidades/projetil.tscn" id="1_2qwue"]
-[ext_resource type="Texture2D" uid="uid://dp3jhl4o3rn1g" path="res://Assets/Player/Attack_1.png" id="1_7ftqi"]
-[ext_resource type="Texture2D" uid="uid://bk01y4r7ddmoo" path="res://Assets/Player/Attack_2.png" id="2_m6q7m"]
-[ext_resource type="Texture2D" uid="uid://bjjkk3jo4ekyb" path="res://Assets/Player/Hurt.png" id="3_2qwue"]
-[ext_resource type="Texture2D" uid="uid://bbavkxh68xeck" path="res://Assets/Player/Idle.png" id="4_gpt77"]
-[ext_resource type="Texture2D" uid="uid://dys5nnji7l0oc" path="res://Assets/Player/Magic_sphere.png" id="5_13jiw"]
-[ext_resource type="Texture2D" uid="uid://yn45v4jnp147" path="res://Assets/Player/Jump.png" id="5_m6q7m"]
-[ext_resource type="Texture2D" uid="uid://d8gcp120whl0" path="res://Assets/Player/Run.png" id="6_cc42t"]
-[ext_resource type="Texture2D" uid="uid://ccj87k8rdtf28" path="res://Assets/Player/Walk.png" id="7_mc76o"]
-[ext_resource type="Texture2D" uid="uid://dtnck5dwswaiu" path="res://Assets/Player/Dead.png" id="8_gpt77"]
-[ext_resource type="AudioStream" uid="uid://ctecnuit28sth" path="res://Sounds/entity_sounds/run.mp3" id="11_3i2lo"]
-[ext_resource type="AudioStream" uid="uid://bv0nikc0e8bq3" path="res://Sounds/entity_sounds/attack.wav" id="12_8q2kj"]
-[ext_resource type="AudioStream" uid="uid://cbnee70qls85g" path="res://Sounds/entity_sounds/long_shoot.wav" id="13_lqdca"]
-[ext_resource type="AudioStream" uid="uid://c4k2grord1mcv" path="res://Sounds/entity_sounds/jump.wav" id="14_dxmyr"]
-[ext_resource type="AudioStream" uid="uid://u1rdakatn64w" path="res://Sounds/entity_sounds/hit.wav" id="15_e6uji"]
-[ext_resource type="AudioStream" uid="uid://4028rhlgqm0i" path="res://Sounds/entity_sounds/death.wav" id="16_d82mx"]
+[ext_resource type="Texture2D" uid="uid://c63222cntoh2d" path="res://Assets/Player/Attack_1.png" id="1_7ftqi"]
+[ext_resource type="Texture2D" uid="uid://b5hqcute2os5p" path="res://Assets/Player/Attack_2.png" id="2_m6q7m"]
+[ext_resource type="Texture2D" uid="uid://bm0k0b8o1lwul" path="res://Assets/Player/Hurt.png" id="3_2qwue"]
+[ext_resource type="Texture2D" uid="uid://c4bjicefj02dx" path="res://Assets/Player/Idle.png" id="4_gpt77"]
+[ext_resource type="Texture2D" uid="uid://3bvyi8upykmd" path="res://Assets/Player/Magic_sphere.png" id="5_13jiw"]
+[ext_resource type="Texture2D" uid="uid://b0qpsujfqv7gd" path="res://Assets/Player/Jump.png" id="5_m6q7m"]
+[ext_resource type="Texture2D" uid="uid://botnxdnmlypds" path="res://Assets/Player/Run.png" id="6_cc42t"]
+[ext_resource type="Texture2D" uid="uid://coyyr4elo3jps" path="res://Assets/Player/Walk.png" id="7_mc76o"]
+[ext_resource type="Texture2D" uid="uid://db5uxr2wf8r0f" path="res://Assets/Player/Dead.png" id="8_gpt77"]
+[ext_resource type="AudioStream" uid="uid://dci61vok35kd8" path="res://Sounds/entity_sounds/run.mp3" id="11_3i2lo"]
+[ext_resource type="AudioStream" uid="uid://bvv1jrmvb65j0" path="res://Sounds/entity_sounds/attack.wav" id="12_8q2kj"]
+[ext_resource type="AudioStream" uid="uid://benkrwf8bcb80" path="res://Sounds/entity_sounds/long_shoot.wav" id="13_lqdca"]
+[ext_resource type="AudioStream" uid="uid://bua6ugqc51dxc" path="res://Sounds/entity_sounds/jump.wav" id="14_dxmyr"]
+[ext_resource type="AudioStream" uid="uid://bs86b7r1n2t7" path="res://Sounds/entity_sounds/hit.wav" id="15_e6uji"]
+[ext_resource type="AudioStream" uid="uid://cdc32cdo01bkr" path="res://Sounds/entity_sounds/death.wav" id="16_d82mx"]
 
 [sub_resource type="GDScript" id="GDScript_vq1si"]
 script/source = "extends CharacterBody2D
@@ -25,7 +25,7 @@ const JUMP_VELOCITY = -400.0
 
 @export var max_health = 300.0
 @export var health: float
-@export var damage_attack_1: int = 20
+@export var damage_attack_1: int = 50
 @export var damage_long_attack: int = 10
 @export var projectile_scene: PackedScene
 
@@ -763,8 +763,6 @@ script/source = "extends Area2D
 size = Vector2(100, 29)
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
-collision_layer = 7
-collision_mask = 7
 script = SubResource("GDScript_vq1si")
 projectile_scene = ExtResource("1_2qwue")
 
@@ -784,7 +782,11 @@ frame = 6
 frame_progress = 0.94676
 
 [node name="Ataque1" type="Area2D" parent="."]
+light_mask = 16
+visibility_layer = 16
 position = Vector2(-8, 12)
+collision_layer = 14
+collision_mask = 14
 script = SubResource("GDScript_gpt77")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ataque1"]

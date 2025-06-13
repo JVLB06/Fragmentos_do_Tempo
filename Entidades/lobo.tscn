@@ -1,11 +1,11 @@
 [gd_scene load_steps=49 format=3 uid="uid://c1qeeakvntkm8"]
 
-[ext_resource type="Texture2D" uid="uid://bhbmaq6g5fpf1" path="res://Assets/Inimigos/wolf/Attack_1.png" id="1_412sx"]
-[ext_resource type="Texture2D" uid="uid://bbs4y7ia5e472" path="res://Assets/Inimigos/wolf/Hurt.png" id="2_i3pbs"]
-[ext_resource type="Texture2D" uid="uid://cc23jlftilks0" path="res://Assets/Inimigos/wolf/Idle.png" id="3_uo43w"]
-[ext_resource type="Texture2D" uid="uid://d26qb1cjhvgnt" path="res://Assets/Inimigos/wolf/Jump.png" id="4_mwx80"]
-[ext_resource type="Texture2D" uid="uid://cpy0a6ca2ccgr" path="res://Assets/Inimigos/wolf/Dead.png" id="5_yeaeg"]
-[ext_resource type="Texture2D" uid="uid://w1o6ekoco5m7" path="res://Assets/Inimigos/wolf/Run.png" id="6_1pc18"]
+[ext_resource type="Texture2D" uid="uid://2w0v46acvfv6" path="res://Assets/Inimigos/wolf/Attack_1.png" id="1_412sx"]
+[ext_resource type="Texture2D" uid="uid://dlhj5byavq7l4" path="res://Assets/Inimigos/wolf/Hurt.png" id="2_i3pbs"]
+[ext_resource type="Texture2D" uid="uid://ca7xjguuk16ci" path="res://Assets/Inimigos/wolf/Idle.png" id="3_uo43w"]
+[ext_resource type="Texture2D" uid="uid://ckolcbcs7kgul" path="res://Assets/Inimigos/wolf/Jump.png" id="4_mwx80"]
+[ext_resource type="Texture2D" uid="uid://0ef0wd2rl0hq" path="res://Assets/Inimigos/wolf/Dead.png" id="5_yeaeg"]
+[ext_resource type="Texture2D" uid="uid://bx8veh7uply4r" path="res://Assets/Inimigos/wolf/Run.png" id="6_1pc18"]
 
 [sub_resource type="GDScript" id="GDScript_idqry"]
 script/source = "extends CharacterBody2D
@@ -367,6 +367,8 @@ height = 58.0
 [node name="Inimigo" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 15
+collision_mask = 15
 script = SubResource("GDScript_idqry")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]

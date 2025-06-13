@@ -1,13 +1,13 @@
 [gd_scene load_steps=15 format=3 uid="uid://csh4vy5eop6be"]
 
-[ext_resource type="Texture2D" uid="uid://dfcrk4w6t6nhg" path="res://Assets/Player/Charge_1.png" id="1_gjsib"]
-[ext_resource type="AudioStream" uid="uid://dqqbhuyvpmqtp" path="res://Sounds/entity_sounds/impacto.wav" id="2_5qx7q"]
+[ext_resource type="Texture2D" uid="uid://dr1ngfwwqckl7" path="res://Assets/Player/Charge_1.png" id="1_gjsib"]
+[ext_resource type="AudioStream" uid="uid://cq7rg4njkbocw" path="res://Sounds/entity_sounds/impacto.wav" id="2_5qx7q"]
 
 [sub_resource type="GDScript" id="GDScript_gjsib"]
 script/source = "extends Node2D
 
 @export var speed: float = 400.0
-@export var damage: int = 15
+@export var damage: int = 40
 var direction := Vector2.RIGHT
 var originator = null  # quem disparou o projétil (ex: o player)
 
@@ -118,8 +118,14 @@ animations = [{
 script = SubResource("GDScript_gjsib")
 
 [node name="Area2D" type="Area2D" parent="."]
+light_mask = 7
+visibility_layer = 7
+collision_layer = 7
+collision_mask = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+light_mask = 7
+visibility_layer = 7
 shape = SubResource("CapsuleShape2D_rfr4t")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]

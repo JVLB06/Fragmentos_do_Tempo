@@ -1,11 +1,11 @@
 [gd_scene load_steps=37 format=3 uid="uid://b8q5n50ikkgvm"]
 
-[ext_resource type="Texture2D" uid="uid://xk36pjoudity" path="res://Assets/Inimigos/skeletons/Gerreiro/Attack_1.png" id="1_g2leu"]
-[ext_resource type="Texture2D" uid="uid://cb1cfwmivyo4s" path="res://Assets/Inimigos/skeletons/Gerreiro/Dead.png" id="2_u3tvl"]
-[ext_resource type="Texture2D" uid="uid://1t2ivuqi22ay" path="res://Assets/Inimigos/skeletons/Gerreiro/Hurt.png" id="3_gpi8g"]
-[ext_resource type="Texture2D" uid="uid://xo1kw1uhnfnq" path="res://Assets/Inimigos/skeletons/Gerreiro/Idle.png" id="4_oh23d"]
-[ext_resource type="Texture2D" uid="uid://b1vtwmrkt87wx" path="res://Assets/Inimigos/skeletons/Gerreiro/Walk.png" id="5_6gatq"]
-[ext_resource type="AudioStream" uid="uid://sh0jgt41oewn" path="res://Sounds/entity_sounds/attack_esqueleto.wav" id="6_u3tvl"]
+[ext_resource type="Texture2D" uid="uid://bg82giamm2udq" path="res://Assets/Inimigos/skeletons/Gerreiro/Attack_1.png" id="1_g2leu"]
+[ext_resource type="Texture2D" uid="uid://cw03yxyjfk5xa" path="res://Assets/Inimigos/skeletons/Gerreiro/Dead.png" id="2_u3tvl"]
+[ext_resource type="Texture2D" uid="uid://bxkd0biy3h18r" path="res://Assets/Inimigos/skeletons/Gerreiro/Hurt.png" id="3_gpi8g"]
+[ext_resource type="Texture2D" uid="uid://cqaf4c32trjjk" path="res://Assets/Inimigos/skeletons/Gerreiro/Idle.png" id="4_oh23d"]
+[ext_resource type="Texture2D" uid="uid://h6djadvnvev5" path="res://Assets/Inimigos/skeletons/Gerreiro/Walk.png" id="5_6gatq"]
+[ext_resource type="AudioStream" uid="uid://dggl6gy76im71" path="res://Sounds/entity_sounds/attack_esqueleto.wav" id="6_u3tvl"]
 
 [sub_resource type="GDScript" id="GDScript_a5wo4"]
 script/source = "extends CharacterBody2D
@@ -334,6 +334,8 @@ size = Vector2(30, 61)
 size = Vector2(56.5, 65.5)
 
 [node name="esqueleto" type="CharacterBody2D"]
+collision_layer = 15
+collision_mask = 15
 script = SubResource("GDScript_a5wo4")
 
 [node name="WallDetector" type="RayCast2D" parent="."]

@@ -1,11 +1,11 @@
 [gd_scene load_steps=37 format=3 uid="uid://b63hq5bihimgh"]
 
-[ext_resource type="Texture2D" uid="uid://bc5tnumb7vv2v" path="res://Assets/Inimigos/skeletons/Lanceiro/Attack_2.png" id="1_08k4q"]
-[ext_resource type="Texture2D" uid="uid://c2kojv45mrbmw" path="res://Assets/Inimigos/skeletons/Lanceiro/Dead.png" id="2_ooxpu"]
-[ext_resource type="Texture2D" uid="uid://ca2et2emu1yex" path="res://Assets/Inimigos/skeletons/Lanceiro/Hurt.png" id="3_cs4rp"]
-[ext_resource type="Texture2D" uid="uid://bws26fa6m7itx" path="res://Assets/Inimigos/skeletons/Lanceiro/Idle.png" id="4_v3fn2"]
-[ext_resource type="Texture2D" uid="uid://ckf8rm0xbvjep" path="res://Assets/Inimigos/skeletons/Lanceiro/Run.png" id="5_1u5fw"]
-[ext_resource type="AudioStream" uid="uid://dugyh811hi80g" path="res://Sounds/entity_sounds/attack_esqueleto.wav" id="6_ooxpu"]
+[ext_resource type="Texture2D" uid="uid://cep382nt0icai" path="res://Assets/Inimigos/skeletons/Lanceiro/Attack_2.png" id="1_08k4q"]
+[ext_resource type="Texture2D" uid="uid://cjw47mmv1y8lq" path="res://Assets/Inimigos/skeletons/Lanceiro/Dead.png" id="2_ooxpu"]
+[ext_resource type="Texture2D" uid="uid://dimmpko585yk5" path="res://Assets/Inimigos/skeletons/Lanceiro/Hurt.png" id="3_cs4rp"]
+[ext_resource type="Texture2D" uid="uid://dupe8qyomweci" path="res://Assets/Inimigos/skeletons/Lanceiro/Idle.png" id="4_v3fn2"]
+[ext_resource type="Texture2D" uid="uid://d2mf1k7denujp" path="res://Assets/Inimigos/skeletons/Lanceiro/Run.png" id="5_1u5fw"]
+[ext_resource type="AudioStream" uid="uid://dggl6gy76im71" path="res://Sounds/entity_sounds/attack_esqueleto.wav" id="6_ooxpu"]
 
 [sub_resource type="GDScript" id="GDScript_08k4q"]
 script/source = "extends CharacterBody2D
@@ -373,6 +373,8 @@ animations = [{
 size = Vector2(31, 64)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+collision_layer = 15
+collision_mask = 15
 script = SubResource("GDScript_08k4q")
 
 [node name="WallDetector" type="RayCast2D" parent="."]
